@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Differential Equations Study Guide</title>
+<style>
+:root{--bg:#f1f5f6;--gr:#dde6ea;--cd:#fbfdfd;--tx:#17324d;--mu:#55687b;--ac:#b3261e;--in:#1f5f99;--sf:#e1ecf5;--bd:#c2d0da;--ok:#0b6b45;--no:#8a5300;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1923;--gr:#172533;--cd:#142130;--tx:#e3ecf4;--mu:#93a8bb;--ac:#ff8f86;--in:#7db8f0;--sf:#1d3044;--bd:#2b4257;--ok:#5fd3a0;--no:#f0b35a}}
+:root[data-theme="dark"]{--bg:#0f1923;--gr:#172533;--cd:#142130;--tx:#e3ecf4;--mu:#93a8bb;--ac:#ff8f86;--in:#7db8f0;--sf:#1d3044;--bd:#2b4257;--ok:#5fd3a0;--no:#f0b35a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);background-size:26px 26px;color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:880px;margin:0 auto;padding:16px 14px 60px}
+h1,h2,.big{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+h1{font-size:1.75rem;line-height:1.2;margin:.5em 0 .3em}
+h2{font-size:1.25rem;line-height:1.3;margin:.1em 0 .5em}
+.mu{color:var(--mu);font-size:.93rem}
+.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:20px}
+.c{background:var(--cd);border:1px solid var(--bd);border-left:4px solid var(--in);border-radius:4px;padding:14px 16px;margin:14px 0}
+.g .c{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.ch{display:block;width:100%;text-align:left}
+.ch:hover{border-left-color:var(--ac)}
+.big{display:block;font-size:3.4rem;line-height:1;font-weight:700;color:var(--in);margin-bottom:8px}
+.b{background:var(--sf);color:var(--in);border:1px solid var(--bd);border-radius:4px;padding:7px 14px;font-weight:600}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--bd);margin:10px 0 4px}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 4px;margin-right:18px;color:var(--mu);font-weight:600;white-space:nowrap}
+nav .on{color:var(--tx);border-bottom-color:var(--ac)}
+summary{cursor:pointer;font-weight:600}
+.c p{margin:.55em 0}
+ol,ul{padding-left:1.3em;margin:.3em 0}
+.cols{columns:250px;list-style:none;padding:0}
+.t{display:inline-block;font-size:.78rem;padding:2px 9px;border-radius:3px;background:var(--sf);color:var(--in);margin:2px 4px 2px 0}
+.t.ok{color:var(--ok)}.t.no{color:var(--no)}
+.a{color:var(--ac)}
+.paper{background:#fff;color:#111;border:1px solid #b9b9b9;border-radius:2px;padding:22px 20px;margin:16px 0}
+.paper h2{font-size:1.3rem;margin:0 0 4px}
+.ln{display:flex;gap:18px;margin:14px 0}
+.ln span{flex:1;border-bottom:1px solid #111}
+.qq{margin:0 0 30px}
+.eq{margin:4px 0}
+.sol{display:none;border-top:1px dashed #888;margin-top:10px;padding-top:8px}
+.sol.on,.paper.sa .sol{display:block}
+.sb{margin-top:8px;font-size:.85rem;padding:5px 12px}
+.tb{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:6px 0;font-weight:700}
+.paper .a{color:#b3261e}
+.fa{border:1.5px solid #111;border-radius:3px;min-height:64px;margin-top:12px;padding:6px 10px;font-weight:700}
+.src{display:none;color:#555;font-size:.82rem;margin-top:6px}
+.paper.sh .src{display:block}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;margin:.7em 0!important}
+</style>
+</head>
+<body>
+<div class="w" id="app"></div>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'local'}};</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<script>
+const r=String.raw,M=s=>'\\('+s+'\\)';
+const L={s:['Solved in the PDF','ok'],e:['Exercise, solution shown in the PDF','ok'],p:['Practice, no solution in the PDF','no'],i:['Stated in an explanation','no']};
+const SV='Separation of variables',EX='Separable (the exercise says to use separation of variables)',NS='No solution is given in the PDF.',TY='Not clear from the PDF',SB='Substitution (the exercise says to use an appropriate substitution)';
+const INT=[r`\int dx=x+C`,r`\int x^r\,dx=\frac{x^{r+1}}{r+1}+C\ (r\ne-1)`,r`\int\cos x\,dx=\sin x+C`,r`\int\sin x\,dx=-\cos x+C`,r`\int\sec^2x\,dx=\tan x+C`,r`\int\csc^2x\,dx=-\cot x+C`,r`\int\sec x\tan x\,dx=\sec x+C`,r`\int\csc x\cot x\,dx=-\csc x+C`,r`\int e^{x}dx=e^{x}+C`,r`\int b^{x}dx=\frac{b^{x}}{\ln b}+C\ (0\lt b,\ b\ne1)`,r`\int\frac1x\,dx=\ln|x|+C`,r`\int\frac{1}{1+x^2}dx=\tan^{-1}x+C`,r`\int\frac{1}{\sqrt{1-x^2}}dx=\sin^{-1}x+C`,r`\int\frac{1}{x\sqrt{x^2-1}}dx=\sec^{-1}|x|+C`];
+
+const CH=[{
+n:1,sec:'2.2',t:'Separable Equations',f:'lec_2_2.pdf',pg:15,
+obj:'Objectives (p. 3): define the separable first-order DE, solve separable DEs, solve IVPs with the separable technique.',
+note:'Page numbers are PDF page positions. On pages 8 to 11 the printed slide numbers are 9 to 12. The PDF has no Example 1 (its examples start at Example 2).',
+terms:[
+['First-order equation (order)',
+ r`Order = the highest derivative present. Definition 2.2.1 (p. 4) is about <b>first-order</b> equations, where only \(\frac{dy}{dx}\) appears.`,
+ r`Find the highest derivative. If it is \(\frac{dy}{dx}\) (a first derivative), the equation is first-order.`,
+ 'Second-order, third-order and so on: Not clear from the PDF (higher orders are not discussed).',
+ r`Every equation in this PDF, e.g. \(\frac{dy}{dx}=-\frac{x}{y}\) (p. 6).`],
+['Separable equation',
+ r`A first-order DE of the form \(\frac{dy}{dx}=g(x)h(y)\) (Definition 2.2.1, p. 4): the right side is an x-only function times a y-only function.`,
+ r`Try to factor the right side \(f(x,y)\) into \(g(x)\cdot h(y)\). Equations written with differentials (Exercise 3: \(dx+e^{3x}dy=0\)) are rearranged until x and y separate (p. 14).`,
+ r`<b>Nonseparable</b>: \(f(x,y)\) cannot be factored into \(g(x)h(y)\). A <i>sum</i> such as \(y+\sin x\) does not factor.`,
+ r`p. 5: \(\frac{dy}{dx}=y^2xe^{3x+4y}=(xe^{3x})(y^2e^{4y})\) is separable; \(\frac{dy}{dx}=y+\sin x\) is not.`],
+['Initial-value problem (IVP)',
+ r`A DE plus a condition \(y(x_0)=y_0\) that selects one particular solution.`,
+ r`A value such as \(y(4)=-3\), \(y(0)=3\), \(y(0)=\pi\) or \(y(0)=0\) written after the equation.`,
+ 'With no condition you only find the general solution (a family, Example 4a). With a condition you also find c.',
+ 'Examples 2, 3, 4(b) and 5 (pp. 6, 7, 9, 10).'],
+['General solution and family of solutions',
+ r`A solution containing an arbitrary constant \(c\); each value of \(c\) gives a different solution (p. 8).`,
+ r`A constant (\(c\), \(C\) or \(c_1\)) is still in the answer and no initial condition was used.`,
+ r`<b>Particular solution</b>: the constant has been found from an initial condition (Ex. 4b: \(c=9\)).`,
+ r`Example 4(a), p. 8: \(y=\sqrt[3]{x^3+\frac{21}{2}x^2+9x+3c}\).`],
+['Explicit and implicit solutions',
+ r`<b>Explicit</b>: solved for y, \(y=\) an expression in x. <b>Implicit</b>: x and y stay together in one equation.`,
+ 'After integrating, try to isolate y. If you can, it is explicit; if not (or you stop), it is implicit.',
+ 'The PDF labels the answers to Exercises 1, 2, 3 “(explicit)”, Exercise 4 “(implicit)”, and Example 5 “an Implicit Solution”.',
+ r`Explicit: Ex. 4(a). Implicit: Example 5, \(\sin y+5e^{y}=3x^3+\cos x+5e^{\pi}-1\) (p. 11).`],
+['Linear, homogeneous and other classifications',
+ 'Not taught in this PDF.','Not clear from the PDF.',
+ 'Linear equations are the topic of Chapter 2 in this guide (Section 2.3). Homogeneous vs. non-homogeneous: Not clear from the PDF.','None.']
+],
+meth:[
+{n:'Separation of variables',
+ rec:r`The equation is \(\frac{dy}{dx}=g(x)h(y)\), or can be rearranged into that shape, e.g. \(\frac{dy}{dx}=-\frac{x}{y}\) becomes \(y\,dy=-x\,dx\) (p. 6).`,
+ when:'The right side factors into an x-only part times a y-only part. The PDF states no other condition.',
+ fm:r`\[\frac{dy}{dx}=g(x)h(y)\quad\Longrightarrow\quad\int\frac{1}{h(y)}\,dy=\int g(x)\,dx\]<p class="mu">The second form is the pattern used in the examples; the PDF does not write it in general form.</p>`,
+ st:[r`Check that the right side factors as \(g(x)h(y)\) (p. 5).`,
+  r`Separate: all y-terms with \(dy\) on one side, all x-terms with \(dx\) on the other (Ex. 2: \(y\,dy=-x\,dx\); Ex. 3: divide by \(e^{y}\cos x\)).`,
+  r`Simplify before integrating if needed (Ex. 3: termwise division and \(\sin 2x=2\sin x\cos x\)).`,
+  'Integrate both sides and add one constant c. Use integration by parts when needed (Ex. 3); formulas are on p. 15.',
+  'Solve for y if possible (Ex. 4a gives a cube root); otherwise leave the implicit solution (Ex. 5).',
+  'With an initial condition, find c (next method).'],
+ exl:'Example 4(a), p. 8',
+ ex:r`\[y^2y'=x^2+7x+3\Rightarrow\int y^2dy=\int(x^2+7x+3)\,dx\Rightarrow\frac{y^3}{3}=\frac{x^3}{3}+7\frac{x^2}{2}+3x+c\]\[y=\sqrt[3]{x^3+\tfrac{21}{2}x^2+9x+3c}\]`,
+ why:r`The right side \(\frac{x^2+7x+3}{y^2}\) is an x-expression times \(\frac{1}{y^2}\), so the y-part moves left, the x-part moves right, and each side integrates on its own.`,
+ mi:[r`\(y+\sin x\) is a sum, not a product, so \(\frac{dy}{dx}=y+\sin x\) is not separable (p. 5).`,
+  r`Renaming constants is allowed: Ex. 2 replaces \(2c_1\) by \(c^2\) to reach \(x^2+y^2=c^2\).`,
+  'You cannot always isolate y: Ex. 5 stops at an implicit solution.',
+  r`Rewrite before integrating: Ex. 3 splits \(\frac{e^{2y}-y}{e^{y}}\) termwise first.`]},
+{n:'Solving an initial-value problem by separation',
+ rec:r`A separable equation followed by a condition such as \(y(0)=3\).`,
+ when:'You need one particular solution instead of the whole family (Objective, p. 3).',
+ fm:r`\[y(x_0)=y_0\ \Longrightarrow\ \text{put }x=x_0,\ y=y_0\text{ into the general solution and solve for }c\]`,
+ st:['Solve by separation of variables to get the general solution with c.','Substitute the initial values into it.','Solve for c.','Put c back into the general solution.'],
+ exl:'Example 4(b), p. 9',
+ ex:r`\[3=y(0)=\sqrt[3]{0+3c}=\sqrt[3]{3c}\ \Rightarrow\ c=9\qquad y=\sqrt[3]{x^3+\tfrac{21}{2}x^2+9x+27}\]`,
+ why:'The general solution is a family of curves; the condition picks the one through the given point (Ex. 2: the circle through (4, −3) has radius 5).',
+ mi:[r`Ex. 5: substituting \(y=\pi,\ x=0\) gives \(c=5e^{\pi}-1\), and the answer stays implicit.`,
+  r`Ex. 3: \(y=0\) when \(x=0\) gives \(c=4\) in the implicit relation.`]}
+],
+ref:'<details class="c"><summary>Reference: integration formulas from the table on p. 15</summary><ul class="cols">'+INT.map(s=>'<li>'+M(s)+'</li>').join('')+'</ul></details>',
+qs:[
+['Classification example (a)','5',r`\(\dfrac{dy}{dx}=y^2xe^{3x+4y}\)`,'Separable (stated in the PDF)','Factor \(f(x,y)\) as \(g(x)h(y)\)','i',
+ r`PDF: separable. \(y^2xe^{3x+4y}=(xe^{3x})(y^2e^{4y})\) with \(g(x)=xe^{3x}\) and \(h(y)=y^2e^{4y}\). It is not solved further.`],
+['Classification example (b)','5',r`\(\dfrac{dy}{dx}=y+\sin x\)`,'Nonseparable (stated in the PDF)','None: it cannot be separated','i',
+ r`PDF: nonseparable, because \(y+\sin x\) cannot be factored as \(g(x)\cdot h(y)\).`],
+['Example 2: Solution Curve','6',r`Solve the initial-value problem \(\dfrac{dy}{dx}=-\dfrac{x}{y},\ y(4)=-3\).`,'Separable, IVP',SV+', then the initial condition','s',
+ r`Rewrite as \(y\,dy=-x\,dx\):\[\int y\,dy=-\int x\,dx\quad\text{and}\quad\frac{y^2}{2}=-\frac{x^2}{2}+c_1\]Replace \(2c_1\) by \(c^2\): \(x^2+y^2=c^2\), a family of concentric circles centred at the origin. With \(x=4,\ y=-3\): \(16+9=25=c^2\).<br><b class="a">Answer:</b> \(x^2+y^2=25\), a circle of radius 5.`],
+['Example 3: An Initial-Value Problem','7',r`Solve \((e^{2y}-y)\cos x\,\dfrac{dy}{dx}=e^{y}\sin 2x,\ y(0)=0\).`,'Separable, IVP',SV+' (integration by parts), then the initial condition','s',
+ r`Divide by \(e^{y}\cos x\):\[\frac{e^{2y}-y}{e^{y}}\,dy=\frac{\sin 2x}{\cos x}\,dx\]Use termwise division on the left and \(\sin2x=2\sin x\cos x\) on the right, then integrate (by parts on the left):\[\int(e^{y}-ye^{-y})\,dy=2\int\sin x\,dx\ \Rightarrow\ e^{y}+ye^{-y}+e^{-y}=-2\cos x+c\]\(y=0\) when \(x=0\) gives \(c=4\).<br><b class="a">Answer:</b> \(e^{y}+ye^{-y}+e^{-y}=4-2\cos x\)`],
+['Example 4(a): a family of solutions','8 (slide 9)',r`Solving a separable equation: \(y'=\dfrac{x^2+7x+3}{y^2}\).`,'Separable',SV,'s',
+ r`\[y^2y'=x^2+7x+3\ \Rightarrow\ \int y^2\,dy=\int(x^2+7x+3)\,dx\ \Rightarrow\ \frac{y^3}{3}=\frac{x^3}{3}+7\frac{x^2}{2}+3x+c\]<b class="a">Answer:</b> \(y=\sqrt[3]{x^3+\tfrac{21}{2}x^2+9x+3c}\). This is a family of solutions: each value of \(c\) gives a different solution (the PDF plots several).`],
+['Example 4(b): Solving an initial value problem','9 (slide 10)',r`\(y'=\dfrac{x^2+7x+3}{y^2},\ y(0)=3\)`,'Separable, IVP',SV+', then the initial condition','s',
+ r`General solution from 4(a): \(y=\sqrt[3]{x^3+\tfrac{21}{2}x^2+9x+3c}\). From the initial condition:\[3=y(0)=\sqrt[3]{0+3c}=\sqrt[3]{3c}\ \Rightarrow\ c=9\]<b class="a">Answer:</b> \(y=\sqrt[3]{x^3+\tfrac{21}{2}x^2+9x+27}\)`],
+['Example 5: an implicit solution','10–11 (slides 11–12)',r`Solving an initial value problem: \(y'=\dfrac{9x^2-\sin x}{\cos y+5e^{y}},\ y(0)=\pi\).`,'Separable, IVP',SV+', then the initial condition','s',
+ r`\[(\cos y+5e^{y})\,y'(x)=9x^2-\sin x\ \Rightarrow\ \int(\cos y+5e^{y})\,y'(x)\,dx=\int(9x^2-\sin x)\,dx\]\[\sin y+5e^{y}=3x^3+\cos x+c\]Initial condition: \(\sin\pi+5e^{\pi}=0+\cos0+c\ \Rightarrow\ 5e^{\pi}-1=c\).<br><b class="a">Answer (implicit, p. 11):</b> \(\sin y+5e^{y}=3x^3+\cos x+5e^{\pi}-1\). The PDF also plots the family and this solution.`],
+['Exercise 1','12 (solution on p. 13)',r`\(\dfrac{dy}{dx}=\sin 5x\)`,EX,SV,'e',
+ r`\(dy=\sin(5x)\,dx\ \Rightarrow\ \int dy=\int\sin(5x)\,dx\)<br><b class="a">Answer:</b> \(y=-\tfrac15\cos(5x)+C\) (explicit)`],
+['Exercise 2','12 (solution on p. 13)',r`\(\dfrac{dy}{dx}=(x+1)^2\)`,EX,SV,'e',
+ r`\(dy=(x+1)^2\,dx\ \Rightarrow\ \int dy=\int(x+1)^2\,dx\)<br><b class="a">Answer:</b> \(y=\dfrac{(x+1)^3}{3}+C\) (explicit)`],
+['Exercise 3','12 (solution on p. 14)',r`\(dx+e^{3x}dy=0\)`,EX,SV,'e',
+ r`\(e^{3x}dy=-dx\ \Rightarrow\ dy=-e^{-3x}dx\ \Rightarrow\ \int dy=\int-e^{-3x}dx\)<br><b class="a">Answer:</b> \(y=\dfrac{e^{-3x}}{3}+C\) (explicit)`],
+['Exercise 4','12 (solution on p. 14)',r`\(dy-(y-1)^2dx=0\)`,EX,SV,'e',
+ r`\(dy=(y-1)^2dx\ \Rightarrow\ \dfrac{1}{(y-1)^2}dy=dx\ \Rightarrow\ \displaystyle\int\dfrac{1}{(y-1)^2}dy=\int dx\)\[\frac{(y-1)^{-2+1}}{-2+1}=x+C\]<b class="a">Answer:</b> \((y-1)^{-1}=-x+C_1\) (implicit). The slide prints a stray “d” after the right-hand integral.`],
+['Exercise 5','12',r`\(x\dfrac{dy}{dx}=4y\)`,EX,SV,'p',NS],
+['Exercise 6','12',r`\(\dfrac{dy}{dx}+2xy^2=0\)`,EX,SV,'p',NS],
+['Exercise 7','12',r`\(\dfrac{dy}{dx}=e^{3x+2y}\)`,EX,SV,'p',NS],
+['Exercise 8','12',r`\(e^{x}y\dfrac{dy}{dx}=e^{-y}+e^{-2x-y}\)`,EX,SV,'p',NS]
+]},
+{
+n:2,sec:'2.3',t:'Linear Equations',f:'lec_2_3.pdf',pg:14,
+obj:'Objectives (p. 3): rewrite first-order linear equations in standard form; solve them with the integrating-factor method.',
+note:'Page numbers are PDF page positions and match the printed slide numbers. This PDF has no practice exercises.',
+terms:[
+['First-order equation (order)',
+ r`Order = the highest derivative present. Definition 2.3.1 (p. 5) covers <b>first-order</b> equations: only \(\frac{dy}{dx}\) appears.`,
+ r`Find the highest derivative; if it is \(\frac{dy}{dx}\) (or \(y'\)), the equation is first-order.`,
+ 'Higher-order linear equations are only mentioned in the introduction (p. 4). How to solve them: Not clear from the PDF.',
+ 'All examples, pp. 8–14.'],
+['Linear equation (in y)',
+ r`A first-order DE of the form \(a_1(x)\dfrac{dy}{dx}+a_0(x)y=g(x)\) (Definition 2.3.1, p. 5).`,
+ r`Can you arrange it so \(\frac{dy}{dx}\) has a coefficient \(a_1(x)\), \(y\) has a coefficient \(a_0(x)\), and the rest is a function \(g(x)\)? The coefficients depend on \(x\) only.`,
+ 'Nonlinear: not defined in this PDF (p. 4 refers to Section 1.1, items (6) and (7)). Not clear from the PDF.',
+ r`\(\frac{dy}{dx}-3y=0\) (p. 8); \(x\frac{dy}{dx}-4y=x^6e^{x}\) (p. 10).`],
+['Standard form',
+ r`\(\dfrac{dy}{dx}+P(x)y=f(x)\), obtained by dividing (1) by the lead coefficient \(a_1(x)\) (p. 5, equation (2)).`,
+ r`The coefficient of \(\frac{dy}{dx}\) must be exactly 1. Then \(P(x)\) is the coefficient of \(y\) and \(f(x)\) is the right side.`,
+ r`Not yet standard: \(x\frac{dy}{dx}-4y=x^6e^{x}\) (divide by \(x\), p. 10); \((x^2-9)\frac{dy}{dx}+xy=0\) (divide by \(x^2-9\), p. 11); \(\sin x\,y'-1=-\cos x\,y\) (divide by \(\sin x\) and re-order, p. 14).`,
+ r`Already standard: \(\frac{dy}{dx}-3y=6\) with \(P=-3\) (p. 9); \(\frac{dy}{dx}+y=x\) with \(P=1\) (p. 12).`],
+['Linear and separable together',
+ 'Some linear equations can also be solved by separation of variables (p. 6). Being linear and being separable are two separate checks.',
+ r`Linear: fits form (1). Separable: the right side factors as \(g(x)h(y)\) (Chapter 1).`,
+ r`Both: \(\frac{dy}{dx}+2xy=0\) and \(\frac{dy}{dx}=y+5\). Linear but not separable: \(\frac{dy}{dx}+y=x\).`,
+ 'p. 6; Example 1 (p. 8) notes it can be separated, then uses the integrating factor.'],
+['Integrating factor',
+ r`The function \(e^{\int P(x)dx}\), built from the standard form. Multiplying by it makes the left side the derivative \(\frac{d}{dx}\left[e^{\int P(x)dx}y\right]\) (p. 7). Written \(\eta(x)\) in Ex. 6–7.`,
+ 'After standard form, take P(x), integrate it (no constant is needed) and put the result in the exponent.',
+ 'It is a multiplier used part-way through, not the solution itself.',
+ r`\(e^{-3x}\) (Ex. 1–2), \(x^{-4}\) (Ex. 3), \(\sqrt{x^2-9}\) (Ex. 4), \(e^{x}\) (Ex. 5), \(x\) (Ex. 6), \(\sin x\) (Ex. 7).`],
+['General solution and initial-value problem',
+ r`A general solution contains a constant \(c\) (Ex. 3, 4). An IVP adds a condition \(y(x_0)=y_0\) that fixes \(c\) (Ex. 5).`,
+ 'A condition such as y(0) = 4 written after the equation.',
+ r`Ex. 5: general solution \(y=x-1+ce^{-x}\); the condition gives \(c=5\).`,
+ 'Ex. 3 and 4 (general), Ex. 5 (IVP).'],
+['Homogeneous and non-homogeneous',
+ 'Not clear from the PDF. These words are not used.',
+ 'The PDF gives no definition. Observation only: the right side is 0 in Ex. 1 and Ex. 4 and non-zero in Ex. 2, 3, 5, 6, 7; the PDF gives this no name.',
+ 'Not clear from the PDF.','None.']
+],
+meth:[
+{n:'Integrating-factor method (linear first-order equations)',
+ rec:r`The equation fits \(a_1(x)\frac{dy}{dx}+a_0(x)y=g(x)\) (Definition 2.3.1), so after dividing by \(a_1(x)\) it reads \(\frac{dy}{dx}+P(x)y=f(x)\).`,
+ when:'The equation is linear in y. In Ex. 3 to 5 the PDF also notes where P and f are continuous and gives the solution on that interval.',
+ fm:r`\[\frac{dy}{dx}+P(x)y=f(x)\qquad e^{\int P(x)\,dx}\ \ (\text{written }\eta(x)\text{ in Ex. 6–7})\]\[\frac{d}{dx}\!\left[e^{\int P(x)dx}\,y\right]=e^{\int P(x)dx}f(x)\]<p class="mu">Ex. 6–7 finish with \(y=\frac{1}{\eta(x)}\int\eta(x)f(x)\,dx\); the PDF does not state this in general form.</p>`,
+ st:['Put the equation in standard form (2): divide by the lead coefficient.',
+  r`Identify \(P(x)\) and \(f(x)\). Compute the integrating factor \(e^{\int P(x)dx}\); no constant is needed in \(\int P(x)dx\).`,
+  r`Multiply both sides of the standard form by the integrating factor. The left side is automatically \(\frac{d}{dx}\left[e^{\int P(x)dx}y\right]\).`,
+  'Integrate both sides (add c) and solve for y.',
+  'State the interval where P and f are continuous (Ex. 3 to 5).'],
+ exl:r`Example 3, p. 10: \(x\frac{dy}{dx}-4y=x^6e^{x}\)`,
+ ex:r`\[\tfrac{dy}{dx}-\tfrac{4}{x}y=x^5e^{x}\ \Rightarrow\ e^{-4\int dx/x}=e^{-4\ln x}=x^{-4}\ \Rightarrow\ \tfrac{d}{dx}[x^{-4}y]=xe^{x}\]\[x^{-4}y=xe^{x}-e^{x}+c\ \Rightarrow\ y=x^5e^{x}-x^4e^{x}+cx^4\quad\text{on }(0,\infty)\]`,
+ why:r`The equation matches form (1) with \(a_1=x\), \(a_0=-4\), \(g=x^6e^{x}\), so it is linear. Dividing by \(x\) gives standard form, and the integrating factor turns the left side into one derivative that can be integrated directly.`,
+ mi:[r`Standard form first (“Remember…”, p. 7). Ex. 3 needs \(P=-4/x\), not \(-4\); reading P before dividing gives the wrong factor.`,
+  r`Some equations also need re-ordering: Ex. 7, \(\sin x\,y'-1=-\cos x\,y\).`,
+  r`No constant in \(\int P(x)dx\); the constant c appears when you integrate in step 4.`,
+  'Multiply the whole equation, including the right side (Ex. 2 gives 6e^(−3x)).',
+  r`Check where P and f are continuous: Ex. 4 is solved only for \(x>3\) or \(x<-3\).`,
+  r`Ex. 3 uses \(\ln x\) instead of \(\ln|x|\) because \(x>0\); Ex. 4 keeps \(\ln|x^2-9|\).`]},
+{n:'Separation of variables (when the linear equation is also separable)',
+ rec:r`A linear equation whose right side factors as \(g(x)h(y)\), e.g. \(\frac{dy}{dx}+2xy=0\) or \(\frac{dy}{dx}=y+5\) (p. 6).`,
+ when:r`Only if it is separable. \(\frac{dy}{dx}+y=x\) is linear but not separable (p. 6).`,
+ fm:r`\[\frac{dy}{dx}=g(x)h(y)\]<p class="mu">Full method: Chapter 1.</p>`,
+ st:['Separate the variables and integrate both sides (Chapter 1).','Solve for y.'],
+ exl:'Example 1, p. 8',
+ ex:r`\(\frac{dy}{dx}-3y=0\): the PDF says it can be solved by separation of variables and instead uses the integrating factor \(e^{-3x}\), giving \(y=ce^{3x}\).`,
+ why:'The PDF names this as an alternative for Example 1. The integrating-factor method is the general procedure for equations in standard form.',
+ mi:['Do not assume every linear equation is separable (p. 6).']},
+{n:'Solving an initial-value problem with the integrating factor',
+ rec:r`A linear equation followed by a condition such as \(y(0)=4\).`,
+ when:'You need one particular solution (Ex. 5).',
+ fm:r`\[y(x_0)=y_0\ \Longrightarrow\ \text{substitute into the general solution and solve for }c\]`,
+ st:['Find the general solution with c.','Substitute the initial values into the general solution.','Solve for c and write the final solution with its interval.'],
+ exl:'Example 5, p. 12',
+ ex:r`\[y=x-1+ce^{-x},\ y(0)=4\ \Rightarrow\ c=5\ \Rightarrow\ y=x-1+5e^{-x},\ -\infty\lt x\lt\infty\]`,
+ why:'The condition picks one curve from the family of solutions.',
+ mi:['Ex. 5 substitutes into the general solution, after solving for y.']}
+],
+qs:[
+['Classification check (a)','6',r`\(\dfrac{dy}{dx}+2xy=0\)`,'Linear and separable (stated in the PDF)','Not solved here','i','PDF: linear and separable. The PDF asks you to verify this and does not show the check.'],
+['Classification check (b)','6',r`\(\dfrac{dy}{dx}=y+5\)`,'Linear and separable (stated in the PDF)','Not solved here','i','PDF: linear and separable. The check is not shown.'],
+['Classification check (c)','6',r`\(\dfrac{dy}{dx}+y=x\)`,'Linear, not separable (stated in the PDF)','Not solved here (Example 5 solves it with an initial condition)','i','PDF: linear but not separable.'],
+['Example 1: Solving a Linear Equation','8',r`Solve \(\dfrac{dy}{dx}-3y=0\).`,'First-order linear, already in standard form','Integrating factor (the PDF notes separation also works)','s',
+ r`\(P(x)=-3\), so the integrating factor is \(e^{\int(-3)dx}=e^{-3x}\).\[e^{-3x}\tfrac{dy}{dx}-3e^{-3x}y=e^{-3x}\cdot0\ \Longleftrightarrow\ \tfrac{d}{dx}\left[e^{-3x}y\right]=0\ \Rightarrow\ e^{-3x}y=c\]<b class="a">Answer:</b> \(y=ce^{3x},\ -\infty\lt x\lt\infty\)`],
+['Example 2: Solving a Linear Equation','9',r`Solve \(\dfrac{dy}{dx}-3y=6\).`,'First-order linear, already in standard form','Integrating factor','s',
+ r`\(P(x)=-3\); integrating factor \(e^{-3x}\).\[e^{-3x}\tfrac{dy}{dx}-3e^{-3x}y=6e^{-3x}\ \Rightarrow\ \tfrac{d}{dx}[e^{-3x}y]=6e^{-3x}\]\[\int\tfrac{d}{dx}[e^{-3x}y]\,dx=6\int e^{-3x}dx\ \Rightarrow\ e^{-3x}y=-6\left(\tfrac{e^{-3x}}{3}\right)+c\]<b class="a">Answer:</b> \(y=-2+ce^{3x},\ -\infty\lt x\lt\infty\)`],
+['Example 3: General Solution','10',r`Solve \(x\dfrac{dy}{dx}-4y=x^6e^{x}\).`,'First-order linear; divide by x to reach standard form','Integrating factor','s',
+ r`Standard form (6): \(\frac{dy}{dx}-\frac{4}{x}y=x^5e^{x}\), so \(P(x)=-4/x\) and \(f(x)=x^5e^{x}\), both continuous on \((0,\infty)\). Integrating factor (\(\ln x\) instead of \(\ln|x|\) since \(x>0\)):\[e^{-4\int dx/x}=e^{-4\ln x}=e^{\ln x^{-4}}=x^{-4}\]Multiply (6) by \(x^{-4}\): \(x^{-4}\frac{dy}{dx}-4x^{-5}y=xe^{x}\), i.e. \(\frac{d}{dx}[x^{-4}y]=xe^{x}\). Integration by parts gives \(x^{-4}y=xe^{x}-e^{x}+c\).<br><b class="a">Answer:</b> \(y=x^5e^{x}-x^4e^{x}+cx^4\) on \((0,\infty)\)`],
+['Example 4: General Solution','11',r`Find the general solution of \((x^2-9)\dfrac{dy}{dx}+xy=0\).`,'First-order linear; divide by \(x^2-9\) to reach standard form','Integrating factor','s',
+ r`Standard form (7): \(\frac{dy}{dx}+\frac{x}{x^2-9}y=0\), \(P(x)=\frac{x}{x^2-9}\), continuous on \((-\infty,-3)\), \((-3,3)\), \((3,\infty)\). The PDF solves on the first and third intervals. Integrating factor:\[e^{\int x\,dx/(x^2-9)}=e^{\frac12\int 2x\,dx/(x^2-9)}=e^{\frac12\ln|x^2-9|}=\sqrt{x^2-9}\]Then \(\frac{d}{dx}\left[\sqrt{x^2-9}\,y\right]=0\), so \(\sqrt{x^2-9}\,y=c\).<br><b class="a">Answer:</b> for \(x>3\) or \(x<-3\): \(y=\dfrac{c}{\sqrt{x^2-9}}\)`],
+['Example 5: An Initial-Value Problem','12',r`Solve \(\dfrac{dy}{dx}+y=x,\ y(0)=4\).`,'First-order linear, standard form, IVP','Integrating factor, then the initial condition','s',
+ r`\(P(x)=1\) and \(f(x)=x\) are continuous on \((-\infty,\infty)\). Integrating factor \(e^{\int dx}=e^{x}\):\[\tfrac{d}{dx}[e^{x}y]=xe^{x}\ \Rightarrow\ e^{x}y=xe^{x}-e^{x}+c\ \Rightarrow\ y=x-1+ce^{-x}\]\(y=4\) when \(x=0\) gives \(c=5\).<br><b class="a">Answer (8):</b> \(y=x-1+5e^{-x},\ -\infty\lt x\lt\infty\)`],
+['Example 6: Solve the Linear ODE','13',r`Solve \(y'+\dfrac{1}{x}y=4x^2,\ x>0\).`,'First-order linear, already in standard form','Integrating factor (called \(\eta(x)\))','s',
+ r`\(P(x)=\frac1x\), \(f(x)=4x^2\). Integrating factor: \(\eta(x)=e^{\int P(x)dx}=e^{\int\frac1x dx}=e^{\ln x}=x\).\[y=\frac1x\int x\cdot4x^2\,dx=\frac1x\int4x^3dx=\frac1x\left(x^4+c\right)\]<b class="a">Answer:</b> \(y=x^3+\dfrac{c}{x}\)`],
+['Example 7: Solve the Linear ODE','14',r`Solve \(\sin x\;y'-1=-\cos x\;y\).`,'First-order linear; not in standard form (divide by \(\sin x\) and re-order)','Integrating factor (called \(\eta(x)\))','s',
+ r`Divide by \(\sin x\) and re-order: \(y'+\frac{\cos x}{\sin x}y=\frac{1}{\sin x}\), so \(P(x)=\cot x\) and \(f(x)=\frac{1}{\sin x}\). Integrating factor: \(\eta(x)=e^{\int\cot x\,dx}=e^{\ln(\sin x)}=\sin x\).\[y=\frac{1}{\sin x}\int\sin x\cdot\frac{1}{\sin x}\,dx=\frac{1}{\sin x}\left[x+C\right]\]<b class="a">Answer:</b> \(y=\dfrac{x}{\sin x}+\dfrac{C}{\sin x}\). The PDF states no interval for this example.`]
+]},{
+n:3,sec:'2.4',t:'Exact Equations',f:'Lecture_2_4.pdf',pg:33,
+obj:'Objectives (p. 3): determine whether an ODE is exact; solve exact equations.',
+note:'Page numbers are PDF page positions; printed slide numbers are shown where they differ. Pages 14–15, 18, 21, 25 and 28–33 are handwritten work or photos.',
+terms:[
+['Differential form M dx + N dy = 0',
+ r`A first-order equation written as \(M(x,y)\,dx+N(x,y)\,dy=0\) (pp. 4, 6).`,
+ 'Move everything to one side so the right side is 0, then read M (it multiplies dx) and N (it multiplies dy). Example 4 does this to x(1 − sin y)dy = (cos x − cos y − y)dx.',
+ r`Chapter 1 equations look like \(\frac{dy}{dx}=g(x)h(y)\). Note \(y\,dx+x\,dy=0\) is separable and also exact (p. 4).`,
+ r`\((2x-1)dx+(3y+7)dy=0\): \(M=2x-1\), \(N=3y+7\) (p. 7).`,
+ 'M is whatever multiplies dx and N is whatever multiplies dy, once the right side is 0.'],
+['Differential of a function of two variables',
+ r`If \(z=f(x,y)\) has continuous first partial derivatives, \(dz=\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy\) (p. 5, eq. (1)). When \(f(x,y)=c\) this gives \(\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy=0\) (eq. (2)).`,
+ 'Ask whether the left side of your equation is exactly what differentiating some f(x,y) would give.',
+ 'Not every M dx + N dy is the differential of some f; the test below decides.',
+ r`\(d(xy)=y\,dx+x\,dy\) (p. 4).`,
+ 'Think of f(x,y) = c as the answer you want. Differentiating it gives an equation of the form M dx + N dy = 0. An exact equation is one where you can run this backwards.'],
+['Exact equation',
+ r`\(M\,dx+N\,dy=0\) is exact if its left side is the differential of some function \(f(x,y)\) in a region R (Definition 2.4.1, p. 6).`,
+ r`Run the test \(\frac{\partial M}{\partial y}=\frac{\partial N}{\partial x}\) (next card).`,
+ 'Not exact: the test fails, as in Example 1(b).',
+ 'Exact: Example 1 (a), (c), (d). Not exact: Example 1(b) (pp. 7–10).',
+ 'Exact means a hidden function f(x,y) exists. If it does, you can find it, and the answer is f(x,y) = c.'],
+['Test for exactness (Theorem 2.4.1)',
+ r`If M and N are continuous with continuous first partial derivatives in a rectangle R (\(a<x<b,\ c<y<d\); the signs are not visible in the PDF), then \(M\,dx+N\,dy\) is exact exactly when \(\frac{\partial M}{\partial y}=\frac{\partial N}{\partial x}\) (p. 6, eq. (4)).`,
+ 'Differentiate M with respect to y and N with respect to x, then compare. The handwritten note on p. 5 says the same in words.',
+ 'Equal means exact. Different means not exact.',
+ r`Example 1(d): \(2y=2y\) (p. 10). Example 1(b): \(1\neq-1\) (p. 8).`,
+ 'Take the y-derivative of the dx part and the x-derivative of the dy part. If they match, it is exact.'],
+['Implicit solution f(x,y) = c',
+ r`The solution of an exact equation is left as \(f(x,y)=c\) (p. 11, step 8).`,
+ 'The answer has x and y together with a constant c.',
+ r`Example 2 also gives the explicit form \(y=\frac{c}{1-x^2}\). Example 5 (an IVP) fixes \(c=18\).`,
+ r`Example 3: \(xy^2-x^2+y=c\) (p. 17).`,
+ 'You do not have to solve for y. Each value of c gives a different curve f(x,y) = c.'],
+['Other classifications (linear, homogeneous)',
+ 'Not clear from the PDF. The objective on p. 3 mentions “first-order linear exact equations” without explaining the phrase.',
+ 'Not clear from the PDF.',
+ 'The only link given: y dx + x dy = 0 is separable and also exact (p. 4).',
+ 'None.',
+ 'Skip these words here; exactness is its own check.']
+],
+meth:[
+{n:'Test for exactness',
+ rec:r`The equation is, or can be written as, \(M\,dx+N\,dy=0\).`,
+ when:'Always first, before trying to solve (p. 11 and step 2 on p. 26).',
+ fm:r`\[\frac{\partial M}{\partial y}=\frac{\partial N}{\partial x}\]`,
+ st:['Write the equation as M dx + N dy = 0.','Find ∂M/∂y and ∂N/∂x.','Equal: exact, go on to solve. Not equal: not exact (Example 1(b)).'],
+ exl:'Example 1(c), p. 9',
+ ex:r`\[M=\sin y-y\sin x,\ N=\cos x+x\cos y-y\]\[\frac{\partial M}{\partial y}=\cos y-\sin x,\qquad\frac{\partial N}{\partial x}=-\sin x+\cos y\]`,
+ why:'Only exact equations have a function f with ∂f/∂x = M and ∂f/∂y = N, so the test tells you whether the solving method can work.',
+ mi:[r`Move everything to one side first: Example 4 gives \(M=-\cos x+\cos y+y\), not \(\cos x-\cos y-y\).`,'Example 1(b) is written with a minus sign, so N = −x − 6y.','If the test fails, stop: Example 1(b) is not exact.'],
+ z:'Differentiate M with respect to y and N with respect to x. The same answer means exact.'},
+{n:'Solving an exact equation (partial integration)',
+ rec:'An equation that passed the exactness test.',
+ when:'Only when ∂M/∂y = ∂N/∂x. The PDF says none of these formulas should be memorized (p. 12).',
+ fm:r`\[f(x,y)=\int M\,dx+g(y),\qquad g'(y)=N-\frac{\partial}{\partial y}\int M\,dx,\qquad f(x,y)=c\]`,
+ st:['Write the equation as M dx + N dy = 0.','Check ∂M/∂y = ∂N/∂x.',r`Integrate M with respect to x; the constant is a function \(g(y)\).`,'Differentiate the result with respect to y.',r`Set it equal to N and solve for \(g'(y)\).`,r`Integrate \(g'(y)\) to get \(g(y)\).`,'Substitute g(y) into the result of step 3.',r`Write the implicit solution \(f(x,y)=c\). With an initial condition, find c (Example 5).`],
+ exl:'Example 3, pp. 16–17',
+ ex:r`\[f=\int(y^2-2x)dx=xy^2-x^2+g(y)\ \Rightarrow\ 2xy+g'(y)=2xy+1\ \Rightarrow\ g(y)=y\]\[xy^2-x^2+y=c\]`,
+ why:'Exactness says ∂f/∂x = M, so integrating M with respect to x rebuilds f except for a function of y; matching ∂f/∂y with N finds that function.',
+ mi:['The constant in step 3 is a function g(y), not a plain number.','p. 12 shows the expression for g′(y) does not depend on x.','p. 12 also shows you may start from ∂f/∂y = N instead: f = ∫N dy + h(x).'],
+ z:'Rebuild the hidden function: integrate M by x, add an unknown g(y), then use N to find g(y). The answer is f(x,y) = c.'},
+{n:'Shortcut: integrate M and N, combine without repeats',
+ rec:'An exact equation (after the test passes).',
+ when:'Handwritten shortcut on pp. 32–33; the photos on pp. 21 and 25 carry handwritten “short solution” notes.',
+ fm:r`\[f(x,y)=\int M\,dx+\int N\,dy\quad(\text{a term found in both is written once})\]`,
+ st:['Check exactness.','Compute ∫M dx.','Compute ∫N dy.','Add them, writing any repeated term once.','The solution is f(x,y) = c (step 8, p. 26).'],
+ exl:r`Exercise 1, p. 33: \((5x+4y)dx+(4x-8y^3)dy=0\)`,
+ ex:r`\[\int M\,dx=\tfrac{5x^2}{2}+4xy,\quad\int N\,dy=4xy-2y^4\ \Rightarrow\ f=\tfrac{5x^2}{2}+4xy-2y^4\]`,
+ why:'Exercise 1 is solved both ways (pp. 29–33) and gives the same f.',
+ mi:['Write a shared term such as 4xy only once (“without repeating”).','Use it only after the exactness check.'],
+ z:'Integrate M by x, integrate N by y, and merge the two results, keeping each term once.'}
+],
+qs:[
+['Introduction example','4',r`\(y\,dx+x\,dy=0\)`,'Separable and exact (stated in the PDF)','Recognize the left side as \(d(xy)\)','i',
+ r`PDF: the equation is separable, but it can also be solved by noticing that the left side is the differential of \(f(x,y)=xy\), \(d(xy)=y\,dx+x\,dy\). It is not solved further.`,
+ 'Spot that the left side is exactly the differential of xy. That is the idea behind this whole section.'],
+['Example 1(a)','7',r`Determine whether it is exact: \((2x-1)dx+(3y+7)dy=0\)`,'Differential form','Exactness test (Theorem 2.4.1)','s',
+ r`\(M=2x-1,\ N=3y+7\):\[\frac{\partial M}{\partial y}=0-0=0,\qquad\frac{\partial N}{\partial x}=0+0=0\]<b class="a">Answer:</b> the two are equal, so the ODE is exact.`,
+ 'M has no y and N has no x, so both derivatives are 0 and they match.'],
+['Example 1(b)','8',r`Determine whether it is exact: \((2x+y)dx-(x+6y)dy=0\)`,'Differential form','Exactness test','s',
+ r`\(M=2x+y,\ N=-x-6y\):\[\frac{\partial M}{\partial y}=0+1=1,\qquad\frac{\partial N}{\partial x}=-1-0=-1\]<b class="a">Answer:</b> \(1\neq-1\), so the ODE is not exact.`,
+ 'The two derivatives are 1 and −1. They differ, so the test fails.'],
+['Example 1(c)','9',r`Determine whether it is exact: \((\sin y-y\sin x)dx+(\cos x+x\cos y-y)dy=0\)`,'Differential form','Exactness test','s',
+ r`\[\frac{\partial M}{\partial y}=\cos y-\sin x,\qquad\frac{\partial N}{\partial x}=-\sin x+\cos y\]<b class="a">Answer:</b> equal, so the ODE is exact.`,
+ 'Both derivatives come out as cos y − sin x, so it passes.'],
+['Example 1(d)','10',r`Determine whether it is exact: \((y^2-2x)dx+(2xy+1)dy=0\)`,'Differential form','Exactness test','s',
+ r`\(M=y^2-2x,\ N=2xy+1\):\[\frac{\partial M}{\partial y}=2y,\qquad\frac{\partial N}{\partial x}=2y\]<b class="a">Answer:</b> equal, so the ODE is exact.`,
+ 'Both derivatives are 2y, so it passes.'],
+['Example 2: Solving an Exact DE','13 (handwritten steps pp. 13–15)',r`Solve \(2xy\,dx+(x^2-1)\,dy=0\).`,'Exact','Exactness test, then partial integration','s',
+ r`\(M=2xy,\ N=x^2-1\): \(\frac{\partial M}{\partial y}=2x=\frac{\partial N}{\partial x}\), so it is exact and \(\frac{\partial f}{\partial x}=2xy\), \(\frac{\partial f}{\partial y}=x^2-1\). Integrating the first: \(f=x^2y+g(y)\). Then \(\frac{\partial f}{\partial y}=x^2+g'(y)=x^2-1\), so \(g'(y)=-1\), \(g(y)=-y\), and \(f=x^2y-y\).<br><b class="a">Answer:</b> \(x^2y-y=c\) (implicit). Explicit form: \(y=\frac{c}{1-x^2}\), defined on any interval not containing \(x=1\) or \(x=-1\). The handwritten steps (pp. 13–15) follow the same route and end with \(f(x,y)=yx^2-y\).`,
+ r`Integrate \(2xy\) by x to get \(x^2y\) plus an unknown \(g(y)\); matching with \(x^2-1\) shows \(g(y)=-y\).`],
+['Example 3: Solving an Exact DE','16–17 (slides 14–15; photo p. 18)',r`Solve the exact differential equation of Example 1(d): \((y^2-2x)dx+(2xy+1)dy=0\).`,'Exact','Partial integration','s',
+ r`\(f=\int(y^2-2x)dx=y^2x-x^2+g(y)\). Then \(\frac{\partial f}{\partial y}=2xy+g'(y)\). Setting it equal to \(N\): \(2xy+1=2xy+g'(y)\), so \(g'(y)=1\) and \(g(y)=y\). Hence \(f(x,y)=xy^2-x^2+y\).<br><b class="a">Answer:</b> \(xy^2-x^2+y=c\)`,
+ 'Integrating M leaves everything except a y-only piece. Matching with N shows the missing piece is y.'],
+['Example 4: Solving an Exact DE','19–20 (slides 16–17; photo p. 21)',r`Determine whether the equation is exact. If it is exact, solve it: \(x(1-\sin y)\,dy=(\cos x-\cos y-y)\,dx\)`,'Exact (after moving terms to one side)','Exactness test, then partial integration','s',
+ r`Moving terms: \(M=-\cos x+\cos y+y\), \(N=x-x\sin y\). \(\frac{\partial M}{\partial y}=1-\sin y=\frac{\partial N}{\partial x}\), so it is exact. \(f=\int(-\cos x+\cos y+y)dx=-\sin x+x\cos y+xy+g(y)\), so \(\frac{\partial f}{\partial y}=-x\sin y+x+g'(y)\). Setting it equal to \(N\): \(g'(y)=0\), so \(g(y)\) is a constant.<br><b class="a">Answer:</b> a family of solutions is \(-\sin x+x\cos y+xy=c\). The photo (p. 21) also shows a shorter version.`,
+ 'Move everything to one side to find M and N, then use the same routine: integrate M by x and fix the y-part with N.'],
+['Example 5: Solving an IVP','22–24 (slides 18–20; photo p. 25)',r`Solve the IVP \((3x^2y-1)dx+(x^3+6y-y^2)dy=0,\ y(0)=3\).`,'Exact, IVP','Exactness test, partial integration, initial condition','s',
+ r`\(\frac{\partial M}{\partial y}=3x^2=\frac{\partial N}{\partial x}\), so it is exact. \(f=\int(3x^2y-1)dx=x^3y-x+g(y)\), \(\frac{\partial f}{\partial y}=x^3+g'(y)\). Setting it equal to \(N\): \(g'(y)=6y-y^2\), so \(g(y)=3y^2-\tfrac13y^3\) and \(f=x^3y-x+3y^2-\tfrac13y^3=C\). With \(y(0)=3\): \(0-0+3(3)^2-\tfrac13(3)^3=C\), so \(C=18\).<br><b class="a">Answer:</b> \(x^3y-x+3y^2-\tfrac13y^3=18\)`,
+ 'Solve the exact equation to get f = C, then put in x = 0 and y = 3 to fix C = 18.'],
+['Exercise 1 (Exercises 2.4)','27 (slide 22); handwritten solution pp. 29–33',r`Determine whether the equation is exact. If it is exact, solve it: \((5x+4y)dx+(4x-8y^3)dy=0\)`,'Exact (per the handwritten check)','Exactness test, partial integration; shortcut also shown','e',
+ r`Handwritten: \(M=5x+4y,\ N=4x-8y^3\); \(\frac{\partial M}{\partial y}=4\), \(\frac{\partial N}{\partial x}=4\), so it is exact. \(\int(5x+4y)dx=\tfrac{5x^2}{2}+4xy+g(y)\); differentiating by y: \(4x+g'(y)=4x-8y^3\), so \(g'(y)=-8y^3\), \(g(y)=-2y^4\).<br><b class="a">Answer:</b> \(f(x,y)=\tfrac{5x^2}{2}+4xy-2y^4\). The shortcut (p. 33) gives the same f from \(\int M\,dx\) and \(\int N\,dy\) “without repeats”. The PDF does not write the final “= c”.`,
+ 'Check 4 = 4, integrate 5x + 4y by x, then fix the y-part with 4x − 8y³ to get −2y⁴.'],
+['Exercise 2 (Exercises 2.4)','27 (partial handwriting p. 28)',r`Solve the IVP: \((e^{x}+y)dx+(2+x+ye^{y})dy=0,\ y(0)=1\)`,'Not clear from the PDF','Not clear from the PDF','p',
+ r`Handwritten start (p. 28): \(\frac{\partial M}{\partial y}=0+1=1\); the check of \(\frac{\partial N}{\partial x}\) is cut off. No final answer is given in the PDF.`]
+]},
+{
+n:4,sec:'2.5',t:'Solutions by Substitutions',f:'Lecture_2_5.pdf',pg:21,
+obj:'Objectives (p. 3): solve DEs using substitution; solve Bernoulli equations by turning them into linear first-order equations.',
+note:'Page numbers are PDF page positions. Pages 8, 9, 11, 14 and 15 are handwritten work or photos. Example 3 is printed as slide 12 and Example 4 as slide 14.',
+terms:[
+['Substitution',
+ r`Replacing y by \(y=g(x,u)\), with \(u\) a function of \(x\), to turn the DE into another DE (p. 5). By the chain rule \(\frac{dy}{dx}=g_x(x,u)+g_u(x,u)\frac{du}{dx}\), and the DE becomes \(\frac{du}{dx}=F(x,u)\). If \(u=\phi(x)\) solves that, then \(y=g(x,\phi(x))\) solves the original.`,
+ 'The equation does not fall into a class you know (separable, linear, exact); the intro on p. 4 says this section may help then.',
+ 'Sections 2.2 to 2.4 solve their own classes directly; substitution is for equations that do not fit one.',
+ r`Bernoulli equations with \(u=y^{1-n}\) (pp. 6–20).`,
+ 'Swap an awkward piece for a new letter u so the equation becomes one you can already solve, then swap back at the end.'],
+['Bernoulli equation',
+ r`\(\frac{dy}{dx}+P(x)y=f(x)y^n\), with \(n\) any real number (p. 6, eq. (4)).`,
+ r`A left side \(\frac{dy}{dx}+P(x)y\) and a right side that is \(f(x)\) times a power of \(y\).`,
+ 'For n = 0 and n = 1 it is linear (p. 6). Otherwise it is not linear (the handwritten note on p. 6 says non-linear), which is why a substitution is needed.',
+ r`\(y'+\frac4xy=x^3y^2\) (n = 2, p. 7); \(y'=5y+e^{-2x}y^{-2}\) (n = −2, p. 10).`,
+ 'It is a linear equation with an extra power of y on the right. That power n tells you the substitution.'],
+['The Bernoulli substitution u = y^(1−n)',
+ r`For \(n\neq0,1\), the substitution \(u=y^{1-n}\) reduces any equation of form (4) to a linear equation (p. 6).`,
+ 'Read n, then use 1 − n as the power in u.',
+ r`Examples: \(n=2\to y^{-1}\); \(n=-2\to y^{3}\); \(n=4\to y^{-3}\); \(n=\tfrac12\to y^{1/2}\) (the slides call the new variable v or u).`,
+ r`Example 2: \(u=y^{-1}\) (p. 16). Example 4: \(u=y^{3}\) (p. 19).`,
+ 'Subtract n from 1 and use that as the new power of y.'],
+['Linear equation after the substitution',
+ r`The substituted equation is linear in \(u\), and the PDF solves it with the integrating factor (Examples 2 to 4).`,
+ r`It has the form \(\frac{du}{dx}+P(x)u=f(x)\) (Example 2: \(\frac{du}{dx}-\frac1xu=-x\)).`,
+ 'It is still an equation in u: you must substitute back to y at the end.',
+ r`Example 3: \(\frac{du}{dx}-3u=-3x\) with integrating factor \(e^{-3x}\) (pp. 17–18).`,
+ 'After the swap you have an equation like the ones in Section 2.3, just with u in place of y.'],
+['Other classifications',
+ 'The intro (p. 4) names separable, linear and exact as classes you can recognize. Homogeneous and others: Not clear from the PDF.',
+ 'Not clear from the PDF.','Not clear from the PDF.','None.',
+ 'Only Bernoulli equations are classified in this PDF.']
+],
+meth:[
+{n:'Substitution (general idea)',
+ rec:'An equation that does not fit a class you know (p. 4).',
+ when:'The PDF gives only the general scheme and then works Bernoulli examples. How to choose g in general: Not clear from the PDF.',
+ fm:r`\[y=g(x,u)\ \Rightarrow\ \frac{dy}{dx}=g_x(x,u)+g_u(x,u)\frac{du}{dx}\ \Rightarrow\ \frac{du}{dx}=F(x,u)\]`,
+ st:['Choose a substitution y = g(x,u), with u a function of x.','Differentiate with the chain rule.','Replace dy/dx and y in the equation and solve for du/dx = F(x,u).','Solve for u = φ(x).','The solution of the original equation is y = g(x, φ(x)).'],
+ exl:'Bernoulli examples, pp. 16–20',
+ ex:r`The Bernoulli examples use this scheme with \(u=y^{1-n}\) (next method).`,
+ why:'The first step in solving a DE is often to transform it into another DE by a substitution (p. 5).',
+ mi:['Do not stop at u: the original solution is y = g(x, φ(x)).'],
+ z:'Replace the awkward part with u, solve the easier equation for u, then put u back to get y.'},
+{n:'Solving a Bernoulli equation',
+ rec:r`\(\frac{dy}{dx}+P(x)y=f(x)y^n\) with \(n\neq0,1\).`,
+ when:'For n = 0 or n = 1 the equation is already linear (p. 6).',
+ fm:r`\[u=y^{1-n}\ \Longrightarrow\ \text{a linear equation in }u\]`,
+ st:['Get the equation into the form (4) so you can read n (Example 2 divides by x; Example 1(c) divides by a power of y).',r`Substitute \(u=y^{1-n}\). Use the chain rule (Example 2: \(\frac{dy}{dx}=-u^{-2}\frac{du}{dx}\)) or \(du\) and \(dy\) (Examples 3, 4).`,'Simplify to a linear equation in u and put it in standard form.','Solve it with the integrating factor (Chapter 2).','Substitute back u = y^(1−n) (Example 2: y = 1/u).','With an initial condition, find the constant (Example 4).'],
+ exl:'Example 2, p. 16',
+ ex:r`\[xy'+y=x^2y^2\Rightarrow y'+\tfrac1xy=xy^2,\ u=y^{-1}\Rightarrow\frac{du}{dx}-\frac1xu=-x\]\[e^{-\int dx/x}=x^{-1},\ \tfrac{d}{dx}[x^{-1}u]=-1\Rightarrow u=-x^2+cx\Rightarrow y=\frac{1}{-x^2+cx}\]`,
+ why:'Here n = 2, so u = y^(1−2) = y^(−1), which turns the equation into a linear one.',
+ mi:['Example 1(b) has n = −2, so u = y³ (not y^(−3)).','Example 1(a): −v′ + (4/x)v = x³ is rewritten as v′ − (4/x)v = −x³ before solving.','Do not stop at u: Example 2 ends with y = 1/u.'],
+ z:'Find n, set u = y^(1−n), and the equation turns into a linear one. Solve for u, then swap back to y.'}
+],
+qs:[
+['Example 1(a): convert to linear','7 (handwritten pp. 8–9)',r`Convert to a linear DE: \(y'+\frac4xy=x^3y^2\)`,'Bernoulli, n = 2','Substitution \(u=y^{1-n}\)','s',
+ r`\(v=y^{-1},\ v'=-y^{-2}y'\). The equation becomes \(-v'+\frac4xv=x^3\).<br><b class="a">Answer:</b> \(v'-\frac4xv=-x^3\). The handwritten pages use \(u\) with \(dy=-y^2du\) and reach \(\frac{du}{dx}-\frac4xu=-x^3\).`,
+ 'Here n = 2, so v = y^(−1). The substitution turns the y² into a plain v and leaves a linear equation.'],
+['Example 1(b): convert to linear','10 (handwritten p. 11)',r`Convert to a linear DE: \(y'=5y+e^{-2x}y^{-2}\)`,'Bernoulli, n = −2','Substitution \(u=y^{1-n}\)','s',
+ r`\(v=y^3,\ v'=3y^2y'\). Plugging in gives \(\frac13v'-5v=e^{-2x}\).<br><b class="a">Answer:</b> \(v'-15v=3e^{-2x}\). The handwritten photo (p. 11) appears to show \(3e^{-3x}\) in its boxed result; the typed slide shows \(e^{-2x}\).`,
+ 'Since n = −2, 1 − n = 3, so v = y³. Multiply by 3 to clear the 1/3.'],
+['Example 1(c): convert to linear','12 (handwritten p. 14)',r`Convert to a linear DE: \(6y'-2y=xy^4\)`,'Bernoulli, n = 4','Substitution \(u=y^{1-n}\)','s',
+ r`Proper form first: \(6y^{-4}y'-2y^{-3}=x\). Then \(v=y^{-3},\ v'=-3y^{-4}y'\), and plugging in gives \(-2v'-2v=x\).<br><b class="a">Answer:</b> \(v'+v=-\tfrac12x\). Part two of the handwritten photo (p. 14) goes on to solve it with the integrating factor \(e^{x}\); its final line is hard to read. Not clear from the PDF.`,
+ 'n = 4 gives v = y^(−3). Divide by y⁴ first so the right side is just x, then substitute.'],
+['Example 1(d): convert to linear','13 (handwritten p. 15)',r`Convert to a linear DE: \(y'+\frac yx-\sqrt y=0\)`,'Bernoulli, n = 1/2','Substitution \(u=y^{1-n}\)','s',
+ r`Proper form: \(y'+\frac1xy=y^{1/2}\Rightarrow y^{-1/2}y'+\frac1xy^{1/2}=1\). Then \(v=y^{1/2},\ v'=\frac12y^{-1/2}y'\), and plugging in gives \(2v'+\frac1xv=1\).<br><b class="a">Answer:</b> \(v'+\frac{1}{2x}v=\frac12\)`,
+ 'Move the root to the right as y^(1/2), so n = 1/2 and v = y^(1/2).'],
+['Example 2: Solving a Bernoulli DE','16',r`Solve \(x\frac{dy}{dx}+y=x^2y^2\).`,'Bernoulli, n = 2','Substitution \(u=y^{-1}\), then integrating factor','s',
+ r`Divide by \(x\): \(\frac{dy}{dx}+\frac1xy=xy^2\). With \(n=2\): \(u=y^{-1}\), \(y=u^{-1}\); chain rule: \(\frac{dy}{dx}=\frac{dy}{du}\frac{du}{dx}=-u^{-2}\frac{du}{dx}\). Result: \(\frac{du}{dx}-\frac1xu=-x\). Integrating factor on \((0,\infty)\): \(e^{-\int dx/x}=e^{-\ln x}=e^{\ln x^{-1}}=x^{-1}\). \(\frac{d}{dx}[x^{-1}u]=-1\) gives \(x^{-1}u=-x+c\), i.e. \(u=-x^2+cx\).<br><b class="a">Answer:</b> \(y=\dfrac{1}{-x^2+cx}\)`,
+ 'Divide by x, set u = 1/y, solve the linear equation for u, then flip back: y = 1/u.'],
+['Example 3: Solving a Bernoulli DE','17–18 (slides 12–13)',r`Solve \(\frac{dy}{dx}=y(xy^3-1)\).`,'Bernoulli, n = 4','Substitution \(u=y^{-3}\), then integrating factor','s',
+ r`Standard form: \(\frac{dy}{dx}+y=xy^4\). With \(u=y^{-3}\): \(du=-3y^{-4}dy\Rightarrow dy=-\frac13y^4du\). Rewriting: \(\frac{du}{dx}-3u=-3x\). Integrating factor \(e^{\int p(x)dx}=e^{-3x}\): \(\frac{d}{dx}[e^{-3x}u]=-3xe^{-3x}\), \(e^{-3x}u=\int-3xe^{-3x}dx\), \(u=x+\frac13+Ce^{3x}\).<br><b class="a">Answer (substituting back):</b> \(y^{-3}=x+\frac13+Ce^{3x}\). This is the same equation as Exercise 17.`,
+ 'Multiply out the right side to see y⁴ (n = 4), so u = y^(−3). The linear equation is solved with e^(−3x).'],
+['Example 4: Solving an IVP','19–20 (slides 14–15)',r`Solve the IVP \(xy^2\frac{dy}{dx}=y^3-x^3,\ y(1)=2\).`,'Bernoulli, n = −2, IVP','Substitution \(u=y^3\), integrating factor, initial condition','s',
+ r`Dividing by \(y^2\) and rearranging: \(\frac{dy}{dx}=\frac1xy-x^2y^{-2}\), in standard form \(\frac{dy}{dx}-\frac1xy=-x^2y^{-2}\). With \(u=y^3\): \(du=3y^2dy\Rightarrow dy=\frac13y^{-2}du\). Rewriting: \(\frac{du}{dx}-\frac3xu=-3x^2\). Integrating factor \(e^{-3\int dx/x}=x^{-3}\): \(\frac{d}{dx}[x^{-3}u]=-3x^{-1}\), \(u=-3x^3\ln|x|+Cx^3\). Substituting back: \(y^3=-3x^3\ln|x|+Cx^3\). With \(y(1)=2\): \(2^3=-3\ln(1)+C(1^3)\Rightarrow C=8\).<br><b class="a">Answer:</b> \(y^3=-3x^3\ln|x|+8x^3\)`,
+ 'Rearrange to see y^(−2) on the right (n = −2), so u = y³. Solve for u, put y³ back, then use y(1) = 2 to get C = 8.'],
+['Exercise 15','21',r`\(x\dfrac{dy}{dx}+y=\dfrac{1}{y^2}\)`,TY,SB,'p',NS],
+['Exercise 16','21',r`\(\dfrac{dy}{dx}-y=e^{x}y^2\)`,TY,SB,'p',NS],
+['Exercise 17','21',r`\(\dfrac{dy}{dx}=y(xy^3-1)\)`,TY,SB,'p','No separate solution is given; this is the same equation as Example 3 (pp. 17–18).'],
+['Exercise 18','21',r`\(x\dfrac{dy}{dx}-(1+x)y=xy^2\)`,TY,SB,'p',NS],
+['Exercise 19','21',r`\(t^2\dfrac{dy}{dt}+y^2=ty\)`,TY,SB,'p',NS],
+['Exercise 20','21',r`\(3(1+t^2)\dfrac{dy}{dt}=2ty(y^3-1)\)`,TY,SB,'p',NS]
+]},(()=>{const P=(pg,ty,me,l)=>l.map(e=>[e[0],pg,'\\('+e[1]+'\\)',ty,me,'p',NS]),T='Second-order, constant coefficients',A='Auxiliary equation (the section method)';
+return {
+n:5,sec:'4.3',t:'Homogeneous Linear Equations with Constant Coefficients',f:'Lec_4_3.pdf',pg:24,
+obj:'Objectives (p. 3): define and solve homogeneous linear second-order DEs with constant coefficients, and solve second-order IVPs.',
+note:'Page numbers are PDF page positions and match the printed slide numbers. The exercises (pp. 22–24) have no solutions in the PDF.',
+terms:[
+['Second-order equation (order)',
+ r`Order = the highest derivative present. This PDF works with \(ay''+by'+cy=0\), so \(y''\) is the highest derivative (p. 5).`,
+ r`Find \(y''\) and check that nothing higher appears.`,
+ r`First-order: only \(y'\), as in the introduction \(ay'+by=0\) (p. 4). Third order and higher: Not clear from the PDF.`,
+ r`\(2y''-5y'-3y=0\) (p. 9).`,
+ r`Count the primes on y. Two primes (\(y''\)) and nothing higher means second-order.`],
+['Homogeneous linear with constant coefficients',
+ r`An equation \(ay''+by'+cy=0\) where \(a,b,c\) are constants (p. 5). The PDF calls the first-order version \(ay'+by=0\) a homogeneous linear equation (p. 4).`,
+ r`\(y''\), \(y'\) and \(y\) each appear once, multiplied by plain numbers, and the right side is 0.`,
+ 'A right side that is not 0, or coefficients that depend on x: Not clear from the PDF (not treated here).',
+ r`\(y''-10y'+25y=0\) (p. 12); \(4y''-4y'-3y=0\) (p. 19).`,
+ 'Plain numbers in front of y″, y′ and y, and a zero on the right. This is the only type this chapter solves.'],
+['Auxiliary equation',
+ r`The quadratic \(am^2+bm+c=0\) that comes from trying \(y=e^{mx}\) (pp. 6, 8).`,
+ r`Write \(m^2\) for \(y''\), \(m\) for \(y'\) and 1 for \(y\), keeping a, b, c.`,
+ 'It is an ordinary quadratic in m, not a differential equation.',
+ r`\(2m^2-5m-3=0\) from \(2y''-5y'-3y=0\) (p. 10).`,
+ 'Swap y″ for m², y′ for m and y for 1. You get a normal quadratic.'],
+['The three cases for the roots',
+ r`The roots \(m_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\) give three cases (pp. 7–8): real distinct (\(b^2-4ac>0\)), real repeated (\(b^2-4ac=0\)), conjugate complex (\(b^2-4ac<0\)).`,
+ r`Solve the quadratic and look at the roots, or at \(b^2-4ac\).`,
+ 'Each case has its own form of general solution (see Methods).',
+ 'Distinct: Ex. 1(a). Repeated: Ex. 1(b). Complex: Ex. 1(c), 2(a), 3.',
+ 'Two different real answers, one repeated answer, or a pair with i. Which one you get picks the formula.'],
+['Second-order initial-value problem',
+ r`A second-order DE with two conditions, \(y(0)\) and \(y'(0)\) (Objective p. 3; Examples 2, 3).`,
+ r`Values like \(y(0)=2,\ y'(0)=2\) written after the equation.`,
+ 'With no conditions you leave the constants C₁, C₂ in the general solution.',
+ r`Example 2(a): \(y''+16y=0,\ y(0)=y'(0)=2\) (p. 16).`,
+ 'Two constants need two clues. The IVP gives both: the starting value and the starting slope.'],
+['Boundary-value problem (Problems 37–40)',
+ 'The PDF only names it: “solve the given boundary-value problem” (p. 24). No definition or method is given: Not clear from the PDF.',
+ r`Observation only: the conditions in Problems 37–40 sit at two different x-values (e.g. \(y(0)=1,\ y(1)=0\)).`,
+ 'Not clear from the PDF.',
+ r`Problem 37: \(y''-10y'+25y=0,\ y(0)=1,\ y(1)=0\) (p. 24).`,
+ 'The PDF lists these as practice with no worked example, so only the problems are listed here.']
+],
+meth:[
+{n:'Auxiliary-equation method',
+ rec:r`An equation \(ay''+by'+cy=0\) with constant a, b, c.`,
+ when:'Homogeneous, linear, second-order, constant coefficients (Objectives, p. 3).',
+ fm:r`\[am^2+bm+c=0,\qquad m_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]<p>Distinct real roots \(m_1\neq m_2\): \(y=C_1e^{m_1x}+C_2e^{m_2x}\)</p><p>Repeated real roots \(m_1=m_2\): \(y=C_1e^{m_1x}+C_2xe^{m_1x}\)</p><p>Conjugate complex roots \(m=\alpha\pm i\beta\): \(y=C_1e^{\alpha x}\cos\beta x+C_2e^{\alpha x}\sin\beta x\)</p>`,
+ st:['Write the equation as ay″ + by′ + cy = 0.',r`Try \(y=e^{mx}\), so \(y'=me^{mx}\) and \(y''=m^2e^{mx}\). Substitute and factor out \(e^{mx}\) (p. 6).`,r`Since \(e^{mx}\neq0\), solve \(am^2+bm+c=0\) by factoring or the quadratic formula.`,'Decide which of the three cases the roots fall into.','Write the general solution for that case. For complex roots read α and β from the roots.'],
+ exl:'Example 1(a), pp. 9–11',
+ ex:r`\[2y''-5y'-3y=0\Rightarrow2m^2-5m-3=(2m+1)(m-3)=0\Rightarrow m_1=-\tfrac12,\ m_2=3\]\[y=C_1e^{-x/2}+C_2e^{3x}\]`,
+ why:r`Substituting \(y=e^{mx}\) turns the differential equation into the algebra problem \(am^2+bm+c=0\), because \(e^{mx}\) is never 0 (p. 6).`,
+ mi:[r`Repeated root: the second term needs the extra x (Ex. 1(b): \(C_2xe^{5x}\)).`,r`Complex roots: take α and β from the roots (Ex. 1(c): \(\alpha=-2,\ \beta=\sqrt3\)).`,r`When \(\alpha=0\), \(e^0=1\), so only cos and sin remain (Ex. 2(a)).`,r`Keep the leading coefficient: Ex. 2(b) gives \(4m^2-4m-3=0\).`,r`The PDF states \(\alpha,\beta>0\) (pp. 7, 9), yet Ex. 1(c) has \(\alpha=-2\) and Ex. 2(a) has \(\alpha=0\).`],
+ z:'Guess y = e^(mx), plug in, and the equation turns into a quadratic in m. The roots decide the answer.'},
+{n:'Solving a second-order initial-value problem',
+ rec:r`A constant-coefficient equation followed by conditions \(y(0)\) and \(y'(0)\).`,
+ when:'You need one particular solution (Examples 2, 3).',
+ fm:r`\[\text{general solution}\ \Rightarrow\ \text{differentiate}\ \Rightarrow\ \text{use }y(0),\ y'(0)\text{ to find }C_1,\ C_2\]`,
+ st:['Find the general solution (method above).',r`Differentiate it to get \(y'\) (Ex. 2(a): \(y'=-4C_1\sin4x+4C_2\cos4x\)).`,'Put the given x-value into y and y′ to get two equations in C₁ and C₂.',r`Solve them (Ex. 2(b): \(C_1+C_2=1\) and \(\tfrac32C_1-\tfrac12C_2=5\)).`,'Put C₁ and C₂ back into the general solution.'],
+ exl:'Example 2(a), pp. 16–18',
+ ex:r`\[y=C_1\cos4x+C_2\sin4x,\ \ y(0)=2\Rightarrow C_1=2,\ \ y'(0)=2\Rightarrow4C_2=2\Rightarrow C_2=\tfrac12\]\[y=2\cos4x+\tfrac12\sin4x\]`,
+ why:'Two constants need two conditions: y(0) and y′(0).',
+ mi:['Differentiate before applying y′(0).',r`Ex. 3: differentiate the whole product \(e^{-x/2}(\dots)\); \(y'(0)=2\) gives \(2c_2+\tfrac12=2\) (p. 21).`],
+ z:'First solve in general. Then use the starting value and the starting slope to pin down C₁ and C₂.'}
+],
+qs:[
+['Example 1(a): Second-Order DEs','9–11 (also p. 15)',r`Solve \(2y''-5y'-3y=0\).`,T,'Auxiliary equation (distinct real roots)','s',
+ r`\(2m^2-5m-3=(2m+1)(m-3)=0\), \(m_1=-\tfrac12,\ m_2=3\).<br><b class="a">Answer:</b> \(y=C_1e^{-x/2}+C_2e^{3x}\)`,
+ 'Two different real roots, so one exponential for each.'],
+['Example 1(b): Second-Order DEs','12 (also p. 15)',r`Solve \(y''-10y'+25y=0\).`,T,'Auxiliary equation (repeated real root)','s',
+ r`\(m^2-10m+25=(m-5)^2=0\), \(m_1=m_2=5\) (repeated roots).<br><b class="a">Answer:</b> \(y=C_1e^{5x}+C_2xe^{5x}\)`,
+ 'One root repeated, so the second solution gets an extra x.'],
+['Example 1(c): Second-Order DEs','13–14 (also p. 15)',r`Solve \(y''+4y'+7y=0\).`,T,'Auxiliary equation (complex roots)','s',
+ r`\(m^2+4m+7=0\); quadratic formula: \(m_{1,2}=\frac{-4\pm\sqrt{-12}}{2}=-2\pm\sqrt3\,i\), so \(\alpha=-2,\ \beta=\sqrt3\).<br><b class="a">Answer:</b> \(y=C_1e^{-2x}\cos(\sqrt3x)+C_2e^{-2x}\sin(\sqrt3x)\)`,
+ 'The roots come as a pair with i, so the answer uses cos and sin with e^(αx).'],
+['Example 2(a): An Initial-Value Problem','16–18',r`Solve \(y''+16y=0,\ y(0)=y'(0)=2\).`,'Second-order IVP','Auxiliary equation, then initial conditions','s',
+ r`\(m^2+16=0\), \(m_{1,2}=\pm4i\) (\(\alpha=0,\ \beta=4\)): \(y=C_1\cos4x+C_2\sin4x\). \(y(0)=2\Rightarrow C_1=2\). \(y'=-4C_1\sin4x+4C_2\cos4x\), \(y'(0)=2\Rightarrow C_2=\tfrac12\).<br><b class="a">Answer:</b> \(y=2\cos4x+\tfrac12\sin4x\)`,
+ 'Imaginary roots with no real part, so just cos and sin. Then the two conditions fix C₁ and C₂.'],
+['Example 2(b): An Initial-Value Problem','19–20',r`Solve \(4y''-4y'-3y=0,\ y(0)=1,\ y'(0)=5\).`,'Second-order IVP','Auxiliary equation, then initial conditions','s',
+ r`\(4m^2-4m-3=0\): \(m_1=\tfrac32,\ m_2=-\tfrac12\), so \(y=C_1e^{3x/2}+C_2e^{-x/2}\). \(y(0)=1\Rightarrow C_1+C_2=1\); \(y'(0)=5\Rightarrow\tfrac32C_1-\tfrac12C_2=5\).<br><b class="a">Answer:</b> \(y=\tfrac{11}{4}e^{3x/2}-\tfrac74e^{-x/2}\)`,
+ 'Two real roots give two exponentials. The two conditions become two simple equations for C₁ and C₂.'],
+['Example 3: An IVP (second order)','21',r`Solve \(4y''+4y'+17y=0,\ y(0)=-1,\ y'(0)=2\).`,'Second-order IVP','Auxiliary equation, then initial conditions','s',
+ r`Roots of \(4m^2+4m+17=0\): \(m_{1,2}=-\tfrac12\pm2i\), so \(y=e^{-x/2}(c_1\cos2x+c_2\sin2x)\). \(y(0)=-1\Rightarrow c_1=-1\). Differentiating and using \(y'(0)=2\): \(2c_2+\tfrac12=2\), so \(c_2=\tfrac34\).<br><b class="a">Answer:</b> \(y=e^{-x/2}\left(-\cos2x+\tfrac34\sin2x\right)\)`,
+ 'Complex roots give e^(−x/2) times cos and sin. Use y(0) for c₁, then differentiate for c₂.']
+].concat(
+P('22',T,A,[['Exercise a (p. 22)',r`y''+2y'=0`],['Exercise b (p. 22)',r`y''-5y=0`]]),
+P('23',T,A,[['Problem 1 (Exercises 4.3)',r`4y''+y'=0`],['Problem 2 (Exercises 4.3)',r`y''-36y=0`],['Problem 3 (Exercises 4.3)',r`y''-y'-6y=0`],['Problem 4 (Exercises 4.3)',r`y''-3y'+2y=0`],['Problem 5 (Exercises 4.3)',r`y''+8y'+16y=0`],['Problem 6 (Exercises 4.3)',r`y''-10y'+25y=0`],['Problem 7 (Exercises 4.3)',r`12y''-5y'-2y=0`],['Problem 8 (Exercises 4.3)',r`y''+4y'-y=0`],['Problem 9 (Exercises 4.3)',r`y''+9y=0`],['Problem 10 (Exercises 4.3)',r`3y''+y=0`],['Problem 11 (Exercises 4.3)',r`y''-4y'+5y=0`],['Problem 12 (Exercises 4.3)',r`2y''+2y'+y=0`],['Problem 13 (Exercises 4.3)',r`3y''+2y'+y=0`],['Problem 14 (Exercises 4.3)',r`2y''-3y'+4y=0`]]),
+P('24','Boundary-value problem','Not clear from the PDF',[['Problem 37 (Exercises 4.3)',r`y''-10y'+25y=0,\ y(0)=1,\ y(1)=0`],['Problem 38 (Exercises 4.3)',r`y''+4y=0,\ y(0)=0,\ y(\pi)=0`],['Problem 39 (Exercises 4.3)',r`y''+y=0,\ y'(0)=0,\ y'(\pi/2)=0`],['Problem 40 (Exercises 4.3)',r`y''-2y'+2y=0,\ y(0)=1,\ y(\pi)=1`]])
+)};})(),{
+n:5,sec:'4.2',t:'Reduction of Order',f:'Lec_4_2_.pdf',pg:21,
+obj:'Objective (p. 3): find the general solution of a homogeneous linear second-order equation.',
+note:'Page numbers are PDF page positions. Pages 7, 11, 13, 16 and 19 are photos of handwritten work; page 21 is blank.',
+terms:[
+['Homogeneous linear second-order equation',
+ r`\(a_2(x)y''+a_1(x)y'+a_0(x)y=0\) (p. 4, equation (1)).`,
+ r`\(y''\), \(y'\) and \(y\) each have a coefficient (it may depend on x) and the right side is 0.`,
+ 'Non-homogeneous or higher-order equations: Not clear from the PDF (not treated here).',
+ r`Example 1: \(x^2y''-3xy'+4y=0\) (p. 6).`,
+ 'An equation with y″, y′ and y, each with a coefficient (it can depend on x), and a zero on the right.'],
+['Standard form y″ + P(x)y′ + Q(x)y = 0',
+ r`Equation (1) divided by \(a_2(x)\), so the coefficient of \(y''\) is 1 (p. 5).`,
+ r`Nothing in front of \(y''\). Then \(P(x)\) is the coefficient of \(y'\).`,
+ r`Not yet standard: \(x^2y''-3xy'+4y=0\); dividing by \(x^2\) gives \(y''-\frac3xy'+\frac4{x^2}y=0\) (p. 6).`,
+ r`Example 2: \(y''-y=0\) is already standard, \(P(x)=0\) (p. 9).`,
+ 'Divide so that y″ stands alone with coefficient 1. Then read off P(x), the number or function in front of y′.'],
+['A given solution y₁',
+ 'The method starts from one known solution y₁ of the equation (the problems say “Given y₁ = … is a solution”). A handwritten note says y₁ is always given in this method (p. 4).',
+ r`Look for the words “Given \(y_1=\dots\) is a solution” (p. 6 onwards).`,
+ 'How to find y₁ yourself: Not clear from the PDF.',
+ r`\(y_1=x^2\) (Ex. 1), \(y_1=e^{x}\) (Ex. 2), \(y_1=1\) (Ex. 3), \(y_1=\cos4x\) (Ex. 4), \(y_1=xe^{-x}\) (Ex. 5).`,
+ 'You are handed one working answer. The method builds a second one from it.'],
+['Linearly independent solutions y₁, y₂',
+ r`The formula produces a \(y_2\) such that \(y_1\) and \(y_2\) are linearly independent (p. 5).`,
+ 'The PDF states that they are independent but shows no test for it: Not clear from the PDF.',
+ 'A solution that is just a multiple of y₁ would not give a second constant: Not clear from the PDF.',
+ r`Ex. 1: \(y_1=x^2\) and \(y_2=x^2\ln x\) (p. 8).`,
+ 'y₁ and y₂ are two genuinely different solutions, not copies of each other.'],
+['General solution y = C₁y₁ + C₂y₂',
+ r`With \(y_1,y_2\) linearly independent, the general solution of (1) is \(y=C_1y_1+C_2y_2\) (p. 5).`,
+ 'Two arbitrary constants for a second-order equation.',
+ 'The slides sometimes rename constants: Ex. 2 writes −C₂/2 as C (p. 10).',
+ r`Ex. 4: \(y=C_1\cos4x+C_2\sin4x\) (p. 15).`,
+ 'Add your two solutions, each with its own constant.']
+],
+meth:[
+{n:'Reduction of order (finding y₂ from a given y₁)',
+ rec:'A homogeneous linear second-order equation together with one given solution y₁.',
+ when:'y₁ is given (p. 4). The formula returns a y₂ that is linearly independent of y₁ (p. 5).',
+ fm:r`\[y''+P(x)y'+Q(x)y=0,\qquad y_2=y_1(x)\int\frac{e^{-\int P(x)\,dx}}{y_1^{2}(x)}\,dx,\qquad y=C_1y_1+C_2y_2\]`,
+ st:['Write the ODE in standard form y″ + P(x)y′ + Q(x)y = 0 (divide by the coefficient of y″).',r`Compute \(-\int P(x)\,dx\).`,r`Substitute into the formula to find \(y_2\).`,r`The general solution is \(y=C_1y_1+C_2y_2\).`],
+ exl:'Example 1, pp. 6–8',
+ ex:r`\[x^2y''-3xy'+4y=0,\ y_1=x^2\ \Rightarrow\ y''-\tfrac3xy'+\tfrac4{x^2}y=0,\ \ -\!\int P\,dx=3\ln x=\ln x^3\]\[y_2=x^2\int\frac{e^{\ln x^3}}{(x^2)^2}dx=x^2\int\frac{x^3}{x^4}dx=x^2\int\frac1x\,dx=x^2\ln x\]\[y=C_1x^2+C_2x^2\ln x\]`,
+ why:'The formula builds the second solution from y₁ and P(x) alone, so one known solution is enough to reach the general solution.',
+ mi:[r`Standard form first: read \(P(x)\) only after the \(y''\) coefficient is 1 (Ex. 1 divides by \(x^2\), so \(P=-\frac3x\)).`,r`If \(P(x)=0\), then \(e^{-\int P\,dx}=e^0=1\) (handwritten note, p. 11; Ex. 2 and 4).`,r`A constant factor in \(y_2\) can be dropped: Ex. 4 gets \(\frac14\sin4x\) and uses \(\sin4x\); a handwritten note says the constant can be ignored (p. 16).`,r`Printed slip: the typed slide for Ex. 5 (p. 18) appears to give \(C_2xe^{-x}\), but \(y_2=-e^{-x}\) and the handwritten photo (p. 19) give \(C_2e^{-x}\).`],
+ z:'You are given one solution. The formula hands you a second, different one. Combine them with two constants.'}
+],
+qs:[
+['Example 1 (reduction of order)','6–8 (handwritten p. 7)',r`If \(y_1=x^2\) is a solution of \(x^2y''-3xy'+4y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','s',
+ r`Standard form: \(y''-\frac3xy'+\frac4{x^2}y=0\), \(P=-\frac3x\), \(-\int P\,dx=3\ln x=\ln x^3\). \(y_2=x^2\int\frac{e^{\ln x^3}}{(x^2)^2}dx=x^2\int\frac{x^3}{x^4}dx=x^2\ln x\).<br><b class="a">Answer:</b> \(y=C_1x^2+C_2x^2\ln x\) (\(y_1\) and \(y_2\) are linearly independent)`,
+ 'Divide by x² first. Then P = −3/x, and the formula gives the extra solution x² ln x.'],
+['Example 2 (reduction of order)','9–11 (handwritten p. 11)',r`If \(y_1=e^{x}\) is a solution of \(y''-y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','s',
+ r`\(P=0\), so \(-\int P\,dx=0\). \(y_2=e^{x}\int\frac{e^0}{(e^x)^2}dx=e^{x}\int e^{-2x}dx=e^{x}\frac{e^{-2x}}{-2}=-\frac{e^{-x}}{2}\).<br><b class="a">Answer:</b> \(y=C_1e^{x}-C_2\frac{e^{-x}}{2}\), written \(y=C_1e^{x}+Ce^{-x}\)`,
+ 'P = 0, so the exponential in the formula is just 1. The integral gives e^(−x) up to a constant.'],
+['Example 3 (reduction of order)','12–13 (handwritten p. 13)',r`If \(y_1=1\) is a solution of \(y''+y'=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','s',
+ r`\(P=1\), \(-\int P\,dx=-x\). \(y_2=(1)\int\frac{e^{-x}}{(1)^2}dx=\int e^{-x}dx=-e^{-x}\).<br><b class="a">Answer:</b> \(y=C_1+Ce^{-x}\)`,
+ 'With y₁ = 1, the formula is just the integral of e^(−x). The second solution is e^(−x), up to sign.'],
+['Example 4 (reduction of order)','14–16 (handwritten p. 16)',r`Given \(y_1=\cos4x\) is a solution of \(y''+16y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','s',
+ r`\(P=0\), so \(e^{0}=1\). \(y_2=\cos(4x)\int\frac{1}{\cos^2(4x)}dx=\cos(4x)\int\sec^2(4x)\,dx=\cos(4x)\frac{\tan(4x)}{4}=\tfrac14\sin(4x)\) (using \(\sec u=\frac1{\cos u}\)).<br><b class="a">Answer:</b> \(y=C_1\cos(4x)+C_2\sin(4x)\)`,
+ 'The integral of 1/cos² is a tangent. Multiplying by cos gives a sine. The 1/4 is only a constant, so it is dropped.'],
+['Example 5 (reduction of order)','17–19 (handwritten p. 19)',r`Given \(y_1=xe^{-x}\) is a solution of \(y''+2y'+y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','s',
+ r`\(P=2\), \(-\int P\,dx=-2x\). \(y_2=xe^{-x}\int\frac{e^{-2x}}{(xe^{-x})^2}dx=xe^{-x}\int\frac1{x^2}dx=xe^{-x}\int x^{-2}dx=xe^{-x}\frac{x^{-2+1}}{-2+1}=-e^{-x}\).<br><b class="a">Answer:</b> the handwritten photo (p. 19) gives \(y=C_1xe^{-x}+C_2e^{-x}\). The typed slide (p. 18) appears to print \(C_2xe^{-x}\) instead, which does not match \(y_2=-e^{-x}\).`,
+ 'The e^(−2x) cancels against the square of x e^(−x), leaving 1/x². Integrating gives −1/x, and multiplying by x e^(−x) leaves e^(−x).'],
+['Exercise 1 (Exercises 4.2)','20',r`Given \(y_1=e^{5x}\) is a solution of \(y''-25y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','p',NS],
+['Exercise 2 (Exercises 4.2)','20',r`Given \(y_1=\sin3x\) is a solution of \(y''+9y=0\), find the general solution.`,'Homogeneous linear second-order, y₁ given','Reduction of order','p',NS]
+]},{
+n:5,sec:'4.1',t:'Preliminary Theory: Linear Equations',f:'lec_4_1_2.pdf',pg:37,
+obj:'Objectives (p. 3): distinguish initial-value from boundary-value problems; determine the type of solution of a BVP; find a fundamental set of solutions of a homogeneous ODE; find general solutions of homogeneous and nonhomogeneous ODEs.',
+note:'Page numbers are PDF page positions in lec_4_1_2.pdf. Many pages carry handwritten notes or are photos of the screen (for example pp. 11–12, 24, 31, 33). The file lec_4_1.pdf has the same typed slides without the handwriting, so its page numbers are lower.',
+terms:[
+['Linear initial-value problem (nth order)',
+ r`Solve \(a_n(x)\frac{d^ny}{dx^n}+\dots+a_1(x)\frac{dy}{dx}+a_0(x)y=g(x)\) subject to \(y(x_0)=y_0,\ y'(x_0)=y_1,\dots,y^{(n-1)}(x_0)=y_{n-1}\) (p. 4, eq. (1)).`,
+ 'All the conditions are given at the same point x₀.',
+ 'In a boundary-value problem the conditions are at different points.',
+ r`Example 1: \(y''-4y=12x,\ y(0)=4,\ y'(0)=1\) (p. 7).`,
+ 'The equation plus clues about one starting point.'],
+['Existence and uniqueness (Theorem 4.1.1)',
+ r`If \(a_n(x),\dots,a_0(x),g(x)\) are continuous on an interval I, \(a_n(x)\neq0\) for every x in I, and \(x_0\) is in I, then the IVP has a solution on I and it is unique (p. 4).`,
+ 'Check three things: everything is continuous, the leading coefficient is never 0 on I, and x₀ lies in I.',
+ 'If \(a_n(x)=0\) for some x in the interval, the solution may not be unique or may not exist (p. 8).',
+ r`Example 1: \(y''-4y=12x\) passes (p. 7). \(x^2y''-2xy'+2y=6\) with conditions at \(x=0\) fails because \(a_2(x)=x^2\) is 0 there (p. 8).`,
+ 'A safety check that tells you when an IVP has exactly one answer.'],
+['Boundary-value problem (BVP)',
+ r`A linear equation of order two or more with values of y or its derivatives given at different points, e.g. \(y(a)=y_0,\ y(b)=y_1\) (p. 5). Other pairs use \(y'(a)\) or \(y'(b)\) (p. 6).`,
+ 'Conditions at two different x-values.',
+ 'Unlike an IVP, a BVP can have many solutions, exactly one, or none (Example 2, pp. 9–10).',
+ r`\(x''+16x=0,\ x(0)=0,\ x(\pi/2)=0\) (p. 9).`,
+ 'Clues at two different places instead of one. The answer can be many, one or no solutions.'],
+['Homogeneous and nonhomogeneous',
+ r`Homogeneous: \(a_n(x)\frac{d^ny}{dx^n}+\dots+a_0(x)y=0\) (eq. (6)). Nonhomogeneous: the same with \(g(x)\) not identically zero (eq. (7)) (p. 14).`,
+ 'Look at the right side: 0 or not.',
+ 'Both need the two assumptions on p. 14: coefficients and g continuous, and \(a_n(x)\neq0\) on the interval.',
+ r`Example 1 (p. 17): \(y''+y'=0\) is homogeneous second order; \(y'''-6y''+11y'-6y=3x\) is nonhomogeneous third order.`,
+ 'Zero on the right means homogeneous. Anything else on the right means nonhomogeneous.'],
+['Differential operator D',
+ r`\(D=\frac{d}{dx}\), \(D^2y=y''\), \(D^ny=y^{(n)}\); an nth-order operator is \(L=a_n(x)D^n+\dots+a_1(x)D+a_0(x)\) (pp. 15–16).`,
+ 'Write each derivative as a power of D and factor y out.',
+ 'It is only notation (a handwritten note on p. 16 says “just notation”).',
+ r`\(y''+y'=0\) becomes \((D^2+D)y=0\) (p. 17).`,
+ 'D is shorthand for “take the derivative”. It only shortens the writing.'],
+['Superposition principle (Theorem 4.1.2)',
+ r`Any linear combination \(y=c_1y_1+\dots+c_ky_k\) of solutions of a homogeneous linear DE on I is also a solution (p. 18). Corollaries: a constant multiple of a solution is a solution; \(y=0\) is always a solution.`,
+ 'The equation must be homogeneous and linear.',
+ 'It says the combination is a solution, not that it is the general solution; that needs independence (below).',
+ 'Examples 2 and 3 (pp. 19–20).',
+ 'Add solutions and multiply them by numbers, and you still get solutions.'],
+['Linear dependence and independence (Definition 4.1.1)',
+ r`Functions are linearly dependent on I if constants \(c_1,\dots,c_n\), not all zero, give \(c_1f_1+\dots+c_nf_n=0\) for every x in I; otherwise they are linearly independent (p. 21). Dependent also means one function is a linear combination of the others (p. 22).`,
+ 'Try to find constants, not all 0, that make the combination 0, or write one function using the others.',
+ 'Independent means no such constants exist.',
+ r`Example 4: \(\cos^2x,\sin^2x,\sec^2x,\tan^2x\) with \(c=1,1,-1,1\) (p. 22). Example 5 (p. 23).`,
+ 'Dependent: one function can be built from the others. Independent: each one brings something new.'],
+['Wronskian and fundamental set',
+ r`The Wronskian \(W(f_1,\dots,f_n)\) is the determinant whose rows are \(f_i\), \(f_i'\), …, \(f_i^{(n-1)}\) (Definition 4.1.2, p. 25). Theorem 4.1.3 (p. 24): n solutions of the homogeneous nth-order DE are linearly independent on I if and only if \(W\neq0\) for every x in I. A fundamental set is n linearly independent solutions (Definition 4.1.3, p. 26).`,
+ 'Build the n by n determinant and check that it is not zero.',
+ 'W is for solutions of the DE; Definition 4.1.1 (above) is the general idea.',
+ r`Example 6: \(W=-6\neq0\) (p. 27). Example 9: \(W=2e^{6x}\neq0\) (p. 32).`,
+ 'A single test: if W is not zero, the solutions are truly different.'],
+['General solution and complementary function',
+ r`Homogeneous (Theorem 4.1.5, p. 26): with a fundamental set, \(y=c_1y_1+\dots+c_ny_n\). Nonhomogeneous (Theorem 4.1.6, p. 34): \(y=c_1y_1+\dots+c_ny_n+y_p\) with \(y_p\) any particular solution. The part \(y_c=c_1y_1+\dots+c_ny_n\) is the complementary function, so \(y=y_c+y_p\) (p. 35).`,
+ r`Solve the associated homogeneous equation for \(y_c\), then add one particular solution \(y_p\).`,
+ 'The homogeneous case has no \(y_p\).',
+ r`Example 10 (p. 36): \(y=c_1e^{x}+c_2e^{2x}+c_3e^{3x}-\tfrac{11}{12}-\tfrac12x\).`,
+ 'Nonhomogeneous answer = (general solution of the homogeneous part) + (one particular solution).']
+],
+meth:[
+{n:'Wronskian test and general solution (homogeneous)',
+ rec:'You have n functions that solve a homogeneous nth-order DE and must show they are independent or write the general solution (Examples 6 to 9).',
+ when:'The functions are solutions of the homogeneous DE and their number equals the order (Theorem 4.1.3).',
+ fm:r`\[W(y_1,y_2)=\begin{vmatrix}y_1&y_2\\y_1'&y_2'\end{vmatrix},\qquad W\neq0\ \Rightarrow\ y=C_1y_1+C_2y_2\]`,
+ st:['Write the Wronskian determinant (rows: the functions, their first derivatives, and so on up to order n − 1).','Evaluate it.',r`If \(W\neq0\) the solutions are linearly independent, so they form a fundamental set.`,'Write the general solution y = C₁y₁ + … + Cₙyₙ.'],
+ exl:'Example 6, p. 27',
+ ex:r`\[W(e^{3x},e^{-3x})=\begin{vmatrix}e^{3x}&e^{-3x}\\3e^{3x}&-3e^{-3x}\end{vmatrix}=-6\neq0\ \Rightarrow\ y=C_1e^{3x}+C_2e^{-3x}\]`,
+ why:'Theorem 4.1.3 says independence of solutions is the same as W being non-zero, and Theorem 4.1.5 turns a fundamental set into the general solution.',
+ mi:['The Wronskian must be non-zero for every x in the interval (Example 9 gets 2e^(6x), never 0).','Use as many solutions as the order of the equation (Example 7 uses 3 for a third-order ODE).',r`Example 8: \(W=4\cos^2 4x+4\sin^2 4x=4\), using \(\sin^2+\cos^2=1\) (p. 31).`],
+ z:'Put the solutions in a determinant. If it is not zero, they are truly different, so add them with constants.'},
+{n:'Nonhomogeneous equation: complementary function plus particular solution',
+ rec:'A linear equation with g(x) not identically zero (eq. (7)).',
+ when:'You can solve the associated homogeneous equation and have a particular solution. How to find y_p: Not clear from the PDF (the PDF says “for now we will go fast about it”, p. 34).',
+ fm:r`\[y=y_c+y_p,\qquad y_c=c_1y_1+\dots+c_ny_n\]`,
+ st:['Replace g(x) by 0 and find a fundamental set of the homogeneous equation.','Write y_c = c₁y₁ + … + cₙyₙ.','Take a particular solution y_p of the original equation.','Add: y = y_c + y_p.'],
+ exl:'Example 10, p. 36',
+ ex:r`\[y_p=-\tfrac{11}{12}-\tfrac12x,\quad y_c=c_1e^{x}+c_2e^{2x}+c_3e^{3x}\ \Rightarrow\ y=c_1e^{x}+c_2e^{2x}+c_3e^{3x}-\tfrac{11}{12}-\tfrac12x\]`,
+ why:'Theorem 4.1.6: the general solution is the sum of the homogeneous general solution and any one particular solution.',
+ mi:['y_c comes from the homogeneous equation (y_c uses Example 9), y_p from the full equation.','The PDF gives y_p in Example 10; it does not show how it was found.'],
+ z:'Solve the version with 0 on the right, then add one working answer for the real right side.'},
+{n:'Existence check and boundary conditions',
+ rec:'An IVP (conditions at one point) or a BVP (conditions at two points).',
+ when:'Theorem 4.1.1 for the IVP check; for a BVP apply the conditions to the general solution (Example 2).',
+ fm:r`\[\text{IVP: check }a_n(x)\neq0\text{ and continuity on I}\qquad\text{BVP: put }x=a,\ x=b\text{ into the general solution}\]`,
+ st:['IVP: check that coefficients and g are continuous and a_n(x) ≠ 0 on an interval containing x₀.','If so, the solution is unique (Example 1).','BVP: write the general solution, substitute each boundary condition, solve for the constants.','Count the results: infinitely many, exactly one, or none (Example 2).'],
+ exl:'Example 2(a), p. 9',
+ ex:r`\[x=c_1\cos4t+c_2\sin4t,\ x(0)=0\Rightarrow c_1=0,\quad x(\tfrac\pi2)=0\text{ holds for every }c_2\Rightarrow x=c_2\sin4t\]`,
+ why:'The IVP theorem tells you when a unique answer is guaranteed; a BVP has no such guarantee.',
+ mi:[r`Example 1 (second IVP): \(a_2(x)=x^2\) is 0 at \(x=0\) and the conditions are at \(x=0\), so uniqueness is not guaranteed.`,'Example 2(b): the only solution is x = 0. Example 2(c): the conditions contradict each other, so there is no solution.'],
+ z:'Check the guarantee first. For boundary conditions, plug them into the general solution and see how many answers survive.'}
+],
+qs:[
+['Example 1 (unique solution of an IVP)','7',r`Verify that \(y=3e^{2x}+e^{-2x}-3x\) is a solution of the IVP \(y''-4y=12x,\ y(0)=4,\ y'(0)=1\).`,'Linear, nonhomogeneous second-order IVP','Theorem 4.1.1','s',
+ r`The equation is linear, the coefficients and \(g(x)=12x\) are continuous, and \(a_2(x)=1\neq0\) on any interval containing \(x=0\).<br><b class="a">Answer:</b> by Theorem 4.1.1 the given function is the unique solution on I.`,
+ 'All the conditions of the theorem hold, so the answer is guaranteed to be the only one.'],
+['Example 1 (second IVP, not unique)','8',r`Verify that \(y=cx^2+x+3\) is a solution of \(x^2y''-2xy'+2y=6,\ y(0)=3,\ y'(0)=1\) on \((-\infty,\infty)\) for any c.`,'Linear IVP (conditions of Theorem 4.1.1 fail)','Theorem 4.1.1','s',
+ r`There is no unique solution: it works for any c. Most conditions of Theorem 4.1.1 hold, but \(a_2(x)=x^2\) is 0 at \(x=0\) and the initial conditions are imposed at \(x=0\).<br><b class="a">Answer:</b> no unique solution.`,
+ 'Because the leading coefficient is 0 where the conditions sit, the theorem gives no guarantee, and many solutions appear.'],
+['Example 2(a): A BVP can have many, one, or no solutions','9',r`Boundary-value problem \(x''+16x=0,\ x(0)=0,\ x(\pi/2)=0\), with general solution \(x=c_1\cos4t+c_2\sin4t\).`,'Boundary-value problem','Apply the boundary conditions to the general solution','s',
+ r`\(x(0)=0\) gives \(c_1=0\), so \(x=c_2\sin4t\). At \(t=\pi/2\): \(0=c_2\sin2\pi\), true for any \(c_2\).<br><b class="a">Answer:</b> infinitely many solutions \(x=c_2\sin4t\). The handwritten pages (pp. 11–12) repeat the work.`,
+ 'The second condition is satisfied automatically, so c₂ stays free. That gives infinitely many solutions.'],
+['Example 2(b)','10',r`\(x''+16x=0,\ x(0)=0,\ x(\pi/8)=0\)`,'Boundary-value problem','Apply the boundary conditions','s',
+ r`\(c_1=0\) again; then \(0=c_2\sin(\pi/2)=c_2\cdot1\).<br><b class="a">Answer:</b> \(x=0\) is the only solution.`,
+ 'This time the second condition forces c₂ = 0.'],
+['Example 2(c)','10',r`\(x''+16x=0,\ x(0)=0,\ x(\pi/2)=1\)`,'Boundary-value problem','Apply the boundary conditions','s',
+ r`\(c_1=0\), but \(1=c_2\sin2\pi=c_2\cdot0=0\), a contradiction.<br><b class="a">Answer:</b> no solution.`,
+ 'The condition asks for 1 but the formula gives 0, so nothing works.'],
+['Exercise 1 (family and IVP)','13',r`\(y=c_1e^{x}+c_2e^{-x}\) on \((-\infty,\infty)\); \(y''-y=0,\ y(0)=0,\ y'(0)=1\). Find a member of the family that solves the IVP.`,'Homogeneous second-order IVP','Apply the initial conditions to the family','p',NS],
+['Exercise 2 (family and IVP)','13',r`\(y=c_1e^{4x}+c_2e^{-x}\) on \((-\infty,\infty)\); \(y''-3y'-4y=0,\ y(0)=1,\ y'(0)=2\). Find a member of the family that solves the IVP.`,'Homogeneous second-order IVP','Apply the initial conditions to the family','p',NS],
+['Exercise 13(a)','13',r`\(y=c_1e^{x}\cos x+c_2e^{x}\sin x\); \(y''-2y'+2y=0\). Is there a member with \(y(0)=1,\ y'(\pi)=0\)?`,'Boundary-value problem','Apply the boundary conditions','p',NS],
+['Exercise 13(b)','13',r`Same family: \(y(0)=1,\ y(\pi)=-1\)?`,'Boundary-value problem','Apply the boundary conditions','p',NS],
+['Exercise 13(c)','13',r`Same family: \(y(0)=1,\ y(\pi/2)=1\)?`,'Boundary-value problem','Apply the boundary conditions','p',NS],
+['Exercise 13(d)','13',r`Same family: \(y(0)=0,\ y(\pi)=0\)?`,'Boundary-value problem','Apply the boundary conditions','p',NS],
+['Example 1 (differential operators), part (a)','17',r`Write using differential operators: \(y''+y'=0\)`,'Homogeneous second-order','Differential operator D','s',
+ r`\(D^2y+Dy=0\), so \((D^2+D)y=0\).<br><b class="a">Answer:</b> homogeneous second-order ODE.`,
+ 'Change y″ to D²y and y′ to Dy, then factor out y.'],
+['Example 1 (differential operators), part (b)','17',r`Write using differential operators: \(\frac{d^3y}{dx^3}-6\frac{d^2y}{dx^2}+11\frac{dy}{dx}-6y=3x\)`,'Nonhomogeneous third-order','Differential operator D','s',
+ r`\(D^3y-6D^2y+11Dy-6y=3x\), so \((D^3-6D^2+11D-6)y=3x\).<br><b class="a">Answer:</b> nonhomogeneous third-order ODE.`,
+ 'Same idea; the 3x on the right makes it nonhomogeneous.'],
+['Example 2 (superposition)','19',r`If \(x_1=\cos4t,\ x_2=\sin4t\) are both solutions of \(x''+16x=0\), can you form a solution based on the superposition principle?`,'Homogeneous second-order','Superposition principle','s',
+ r`Yes: \(x=c_1x_1+c_2x_2\).<br><b class="a">Answer:</b> \(x=c_1\cos(4t)+c_2\sin(4t)\)`,
+ 'Two solutions of a homogeneous equation can be added with constants.'],
+['Example 3 (superposition)','20',r`If \(y_1=x^2,\ y_2=x^2\ln x\) are both solutions of the ODE \(x^3y''-2xy'+4y=0\) (as printed), can you form a solution based on the superposition principle?`,'Homogeneous second-order','Superposition principle','s',
+ r`\(y=c_1y_1+c_2y_2=c_1x^2+c_2x^2\ln x\); or \(y=c_1x^2\); or \(y=c_2x^2\ln x\); or \(y=0\) (\(c_1=c_2=0\)).<br><b class="a">Answer:</b> yes, all of these are solutions. Note: with the ODE as printed, \(y=x^2\) gives \(2x^3\ne0\); the same pair solves \(x^2y''-3xy'+4y=0\) in Section 4.2 Example 1, so the slide may contain a typo.`,
+ 'Any constant multiple or sum of the two is again a solution, including 0.'],
+['Example 4: Linearly Dependent Set of Functions','22',r`Show that \(f_1=\cos^2x,\ f_2=\sin^2x,\ f_3=\sec^2x,\ f_4=\tan^2x\) are linearly dependent on \((-\pi/2,\pi/2)\).`,'Linear dependence (Definition 4.1.1)','Find constants, not all zero','s',
+ r`\(c_1\cos^2x+c_2\sin^2x+c_3\sec^2x+c_4\tan^2x=0\) when \(c_1=c_2=1,\ c_3=-1,\ c_4=1\), using \(\cos^2x+\sin^2x=1\) and \(1+\tan^2x=\sec^2x\).<br><b class="a">Answer:</b> linearly dependent.`,
+ 'Two identities cancel everything with those constants, so the set is dependent.'],
+['Example 5: Linearly Dependent Set of Functions','23',r`Show that \(f_1=\sqrt x+5,\ f_2=\sqrt x+5x,\ f_3=x-1,\ f_4=x^2\) are linearly dependent on \((0,\infty)\).`,'Linear dependence','One function as a combination of the others','s',
+ r`\(f_2(x)=1\cdot f_1(x)+5\cdot f_3(x)+0\cdot f_4(x)\) for every x in \((0,\infty)\).<br><b class="a">Answer:</b> linearly dependent.`,
+ 'f₂ is built from f₁ and f₃, so the set is dependent.'],
+['Handwritten illustration under Theorem 4.1.3','24',r`\(y_1=x^2,\ y_2=x+1\): form the Wronskian.`,'Wronskian (illustration)','Wronskian test','i',
+ r`Handwritten: \(W=\begin{vmatrix}x^2&x+1\\2x&1\end{vmatrix}=x^2-2x(x+1)\). The conclusion written next to it is hard to read: Not clear from the PDF.`,
+ 'Shows how the 2 by 2 determinant is set up.'],
+['Example 6','27',r`Verify that \(y_1=e^{3x},\ y_2=e^{-3x}\) are linearly independent, then form the general solution of \(y''-9y=0\).`,'Homogeneous second-order','Wronskian test','s',
+ r`\(W(y_1,y_2)=\begin{vmatrix}e^{3x}&e^{-3x}\\3e^{3x}&-3e^{-3x}\end{vmatrix}=-6\neq0\), so they are linearly independent.<br><b class="a">Answer:</b> \(y=C_1e^{3x}+C_2e^{-3x}\)`,
+ 'The determinant is −6, not zero, so the two are independent and can be combined.'],
+['Example 7','28–29',r`Determine if \(y_1=x+1,\ y_2=x,\ y_3=x^2\) form a fundamental set of solutions of a general third-order ODE. Then find the general solution if possible.`,'Homogeneous third-order','Wronskian test','s',
+ r`\(W=\begin{vmatrix}x+1&x&x^2\\1&1&2x\\0&0&2\end{vmatrix}=2\neq0\), so they are linearly independent and form a fundamental set.<br><b class="a">Answer:</b> \(y=C_1(x+1)+C_2x+C_3x^2\)`,
+ 'Three functions for a third-order equation, determinant 2 (not zero), so they form a fundamental set.'],
+['Example 8','30–31',r`Verify that \(y_1=\cos4x,\ y_2=\sin4x\) form a fundamental set of solutions of \(y''+16y=0\). Then form a general solution.`,'Homogeneous second-order','Wronskian test','s',
+ r`\(W=\begin{vmatrix}\cos4x&\sin4x\\-4\sin4x&4\cos4x\end{vmatrix}=4\neq0\).<br><b class="a">Answer:</b> \(y=C_1\cos(4x)+C_2\sin(4x)\)`,
+ 'The determinant simplifies to 4, using cos² + sin² = 1.'],
+['Example 9: General Solution of a Homogeneous DE','32–33',r`The functions \(y_1=e^{x},\ y_2=e^{2x},\ y_3=e^{3x}\) satisfy the third-order equation \(y'''-6y''+11y'-6y=0\). Find the general solution.`,'Homogeneous third-order','Wronskian test','s',
+ r`\(W(e^{x},e^{2x},e^{3x})=\begin{vmatrix}e^{x}&e^{2x}&e^{3x}\\e^{x}&2e^{2x}&3e^{3x}\\e^{x}&4e^{2x}&9e^{3x}\end{vmatrix}=2e^{6x}\neq0\) for every real x, so they form a fundamental set on \((-\infty,\infty)\).<br><b class="a">Answer:</b> \(y=c_1e^{x}+c_2e^{2x}+c_3e^{3x}\)`,
+ 'The determinant is 2e^(6x), never zero, so the three solutions are independent.'],
+['Example 10: General Solution of a Nonhomogeneous DE','36',r`\(y_p=-\frac{11}{12}-\frac12x\) is a particular solution of \(y'''-6y''+11y'-6y=3x\) (11). Write the general solution.`,'Nonhomogeneous third-order','Complementary function plus particular solution','s',
+ r`The associated homogeneous equation \(y'''-6y''+11y'-6y=0\) has general solution \(y_c=c_1e^{x}+c_2e^{2x}+c_3e^{3x}\) (Example 9).<br><b class="a">Answer:</b> \(y=y_c+y_p=c_1e^{x}+c_2e^{2x}+c_3e^{3x}-\frac{11}{12}-\frac12x\)`,
+ 'Take the answer of the zero-right-side version (Example 9) and add the given particular solution.'],
+['Exercise (nonhomogeneous family)','37',r`Verify that \(y=c_1e^{2x}+c_2e^{5x}+6e^{x}\) is the general solution of the nonhomogeneous equation \(y''-7y'+10y=24e^{x}\).`,'Nonhomogeneous second-order','Complementary function plus particular solution','p',NS]
+]}];
+
+let AR=false,CI=0,CT=0;const AZ={};
+const ez=(h,t,k)=>{if(!t)return"";const a=AR&&AZ[k],st='background:var(--sf);border-left:4px solid var(--ac);border-radius:4px;padding:10px 14px;margin:8px 0 12px';return a?`<div dir="rtl" style="${st};border-left:0;border-right:4px solid var(--ac);text-align:right"><b>شرح مبسّط.</b> ${a}</div>`:`<div style="${st}"><b>${h}${AR?' (English only for now)':''}.</b> ${t}</div>`};
+function swLang(){AR=!AR;const y=scrollY;show(CI,CT);scrollTo(0,y)}
+const EZ={
+'First-order equation (order)':r`Look at the derivative in the equation. If it is only \(\frac{dy}{dx}\) (one derivative, not a derivative of a derivative), the equation is first-order. Every equation in these PDFs looks like that.`,
+'Separable equation':r`Think of sorting laundry: can you put everything with x in one pile and everything with y in another? If the right side is (something with only x) times (something with only y), it is separable. If x and y are joined by a plus sign, like \(y+\sin x\), you cannot split them, so it is not separable.`,
+'Initial-value problem (IVP)':r`The equation alone gives many possible answers (a whole family of curves). The initial condition, like \(y(0)=3\), is a starting point that tells you which one curve you want. So: solve first, then use the starting point to find c.`,
+'General solution and family of solutions':r`After integrating, your formula still has a leftover letter c. Think of c as a dial: every setting gives a different curve, and each one solves the equation. The formula with c is the general solution, and all its curves together are the family.`,
+'Explicit and implicit solutions':r`Explicit: y is alone on one side, \(y=\ldots\), so you can read y directly. Implicit: x and y are still mixed together in one equation and you leave it that way. In Example 5 the PDF leaves the answer in this mixed form.`,
+'Linear, homogeneous and other classifications':r`These words are not taught in this PDF, so skip them for now. Linear equations are the topic of Chapter 2 in this guide.`,
+'Linear equation (in y)':r`A linear equation has this simple pattern: (something with x) times \(\frac{dy}{dx}\), plus (something with x) times y, equals (something with x). If you can arrange your equation into that pattern, it is linear.`,
+'Standard form':r`Standard form is the clean way to write a linear equation: \(\frac{dy}{dx}\) has nothing in front of it, then \(+P(x)\,y\), then \(=f(x)\). If something is in front of \(\frac{dy}{dx}\), divide the whole equation by it. Then P(x) is what multiplies y, and f(x) is the right side.`,
+'Linear and separable together':r`These are two different questions: "Is it linear?" and "Is it separable?". The PDF shows equations that are both (\(\frac{dy}{dx}+2xy=0\) and \(\frac{dy}{dx}=y+5\)) and one that is linear but not separable (\(\frac{dy}{dx}+y=x\)).`,
+'Integrating factor':r`It is a helper you multiply the whole equation by. It is chosen so the left side collapses into one derivative, \(\frac{d}{dx}[\text{factor}\cdot y]\), and then you just integrate. To build it: take P(x), integrate it (no +c needed), and put the result on top of e, giving \(e^{\int P(x)dx}\).`,
+'General solution and initial-value problem':r`General solution: the answer with c, many curves. IVP: the same equation plus a starting point that fixes c. In Example 5 the general answer is \(y=x-1+ce^{-x}\), and \(y(0)=4\) gives \(c=5\).`,
+'Homogeneous and non-homogeneous':r`The PDF never uses these words, so there is nothing to learn about them from this file.`,
+'Separation of variables':r`The idea: x-stuff goes with dx, y-stuff goes with dy. Recipe: (1) move everything with y (and dy) to one side and everything with x (and dx) to the other, (2) integrate each side by itself, (3) add one c, (4) if you can, get y alone.`,
+'Solving an initial-value problem by separation':r`Solve the equation the normal way and keep the c. Then put the starting values (the x and y from the initial condition) into the answer and solve the small equation for c. Put that c back. In Example 4(b), \(y(0)=3\) gave \(c=9\).`,
+'Integrating-factor method (linear first-order equations)':r`The idea: multiply by a special helper so the left side becomes a single derivative that integration can undo. Recipe: (1) make \(\frac{dy}{dx}\) stand alone (divide by whatever is in front), (2) read P(x), (3) build the helper \(e^{\int P(x)dx}\), (4) multiply the whole equation by it, so the left side becomes \(\frac{d}{dx}[\text{helper}\cdot y]\), (5) integrate both sides and add c, (6) solve for y.`,
+'Separation of variables (when the linear equation is also separable)':r`Some linear equations can also be solved with the sorting trick from Chapter 1. The PDF mentions this for Example 1, then uses the integrating factor anyway. If the equation is not separable (like \(\frac{dy}{dx}+y=x\)), use the integrating factor.`,
+'Solving an initial-value problem with the integrating factor':r`First get the general answer with c. Then put the starting values into it and solve for c. In Example 5, \(y(0)=4\) gives \(c=5\).`,
+'Example 2: Solution Curve':r`Put y with dy and x with dx, then integrate both sides. The answer is circles around the origin, and the starting point (4, −3) picks the one with radius 5, because 16 + 9 = 25.`,
+'Example 3: An Initial-Value Problem':r`Divide so the y-stuff sits with dy and the x-stuff with dx. Tidy each side first (split the fraction on the left, use \(\sin 2x=2\sin x\cos x\) on the right), then integrate. The starting point gives c = 4.`,
+'Example 4(a): a family of solutions':r`y² goes with dy and the x-polynomial goes with dx. Integrate both sides, then take the cube root to get y. The leftover c makes a family of solutions.`,
+'Example 4(b): Solving an initial value problem':r`Reuse the answer from 4(a). Put x = 0 and y = 3 into it: \(3=\sqrt[3]{3c}\), so c = 9.`,
+'Example 5: an implicit solution':r`Same sorting trick. The PDF stops at the implicit form. The starting point (x = 0, y = π) gives \(c=5e^{\pi}-1\).`,
+'Example 1: Solving a Linear Equation':r`Already clean: nothing is in front of \(\frac{dy}{dx}\). P = −3, so the helper is \(e^{-3x}\). Multiply, and the left side collapses to \(\frac{d}{dx}[e^{-3x}y]\). The right side is 0, so integrating gives \(e^{-3x}y=c\).`,
+'Example 2: Solving a Linear Equation':r`Same left side as Example 1, so the same helper \(e^{-3x}\). The right side is now 6, so it becomes \(6e^{-3x}\) and must be integrated too. That extra integral produces the −2.`,
+'Example 3: General Solution':r`There is an x in front of \(\frac{dy}{dx}\), so divide by x first. Then \(P=-4/x\) and the helper is \(x^{-4}\). Multiply, integrate (by parts), and solve for y.`,
+'Example 4: General Solution':r`Divide by \(x^2-9\) to clean up. The helper is \(\sqrt{x^2-9}\). The left side collapses to one derivative and the right side is 0, so \(\sqrt{x^2-9}\,y=c\).`,
+'Example 5: An Initial-Value Problem':r`Already clean, with P = 1, so the helper is \(e^{x}\). Get the general answer with c, then \(y(0)=4\) gives c = 5.`,
+'Example 6: Solve the Linear ODE':r`Already clean, with \(P=\frac1x\), so the helper is x. Multiply, integrate, and divide by x: \(y=\frac1x\int x\cdot4x^2dx\).`,
+'Example 7: Solve the Linear ODE':r`Not clean yet: divide by \(\sin x\) and re-order so \(\frac{dy}{dx}\) stands alone. Then \(P=\cot x\), the helper is \(\sin x\), and inside the integral \(\sin x\cdot\frac{1}{\sin x}\) is just 1.`
+};
+CH.sort((a,b)=>parseFloat(a.sec)-parseFloat(b.sec));CH.forEach((c,i)=>{c.n=i+1});CH.slice(2).forEach(c=>{c.terms.forEach(x=>{EZ[x[0]]=x[5]});c.meth.forEach(m=>{EZ[m.n]=m.z});c.qs.forEach(q=>{if(q[7])EZ[q[0]]=q[7]})});
+const app=document.getElementById('app');
+const tex=()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise([app]).catch(()=>{})};
+const li=a=>a.map(s=>'<li>'+s+'</li>').join('');
+const TB=['Identification & terminology','Methods & how to solve','Questions & examples'];
+
+function home(){
+ app.innerHTML='<h1>Differential Equations Study Guide</h1><p class="mu">Built from the uploaded lecture PDFs only. Anything they do not settle is marked “Not clear from the PDF.”</p><div class="g">'+examCard+CH.map((c,i)=>`<button class="c ch" onclick="show(${i},0)"><span class="big">${c.sec}</span><h2>Chapter ${c.n}: ${c.t}</h2><p class="mu">${c.f}, ${c.pg} pages</p><p>${c.terms.length} terms, ${c.meth.length} methods, ${c.qs.length} questions and examples</p></button>`).join('')+'</div>';
+ scrollTo(0,0)}
+
+const terms=c=>'<p class="mu">See the equation, identify its type, know what you are dealing with.</p>'+c.terms.map(x=>`<div class="c"><h2>${x[0]}</h2>${ez('In plain words',EZ[x[0]],x[0])}<p><b>What it means.</b> ${x[1]}</p><p><b>What to look for.</b> ${x[2]}</p><p><b>Versus similar types.</b> ${x[3]}</p><p><b>Example from the PDF.</b> ${x[4]}</p></div>`).join('');
+
+const meths=c=>'<p class="mu">Identify the equation, choose the method, follow the steps, solve. The PDF has no “common mistakes” slide; the cautions below come from its own examples.</p>'+c.meth.map(m=>`<div class="c"><h2>${m.n}</h2>${ez('In plain words',EZ[m.n],m.n)}<p><b>How to recognize it.</b> ${m.rec}</p><p><b>When to use it.</b> ${m.when}</p><p><b>Formula</b></p>${m.fm}<p><b>Steps</b></p><ol>${li(m.st)}</ol><p><b>Example: ${m.exl}</b></p>${m.ex}<p><b>Why this method.</b> ${m.why}</p><p><b>Common mistakes and cautions</b></p><ul>${li(m.mi)}</ul></div>`).join('')+(c.ref||'');
+
+const tg=()=>{const d=[...document.querySelectorAll('.q')],o=d.some(x=>!x.open);d.forEach(x=>x.open=o)};
+const qsec=c=>'<p><button class="b" onclick="tg()">Expand or collapse all</button></p>'+c.qs.map(q=>`<details class="q c"><summary>${q[0]} <span class="mu">p. ${q[1]}</span></summary><p><b>Original question</b></p><p>${q[2]}</p><p><span class="t">Page ${q[1]}</span><span class="t">Type: ${q[3]}</span><span class="t">Method: ${q[4]}</span><span class="t ${L[q[5]][1]}">${L[q[5]][0]}</span></p>${ez('Idea in plain words',EZ[q[0]],q[0])}<p><b>Solution or answer in the PDF</b></p><div>${q[6]}</div></details>`).join('')+`<h2 style="margin-top:30px">Complete question list</h2><div class="c"><ol>${c.qs.map(q=>`<li>${q[0]}, p. ${q[1]}, ${L[q[5]][0].toLowerCase()}<br>${q[2]}</li>`).join('')}</ol></div>`;
+
+function show(i,t){CI=i;CT=t;const c=CH[i];
+ app.innerHTML=`<button class="b" onclick="home()">‹ All chapters</button> <button class="b" onclick="swLang()">${AR?'English':'العربية'}</button><h1>Chapter ${c.n}: ${c.t}</h1>${AR?'<p class="mu" dir="rtl">الشرح المبسّط يظهر بالعربية. باقي المحتوى (التعريفات والأسئلة والحلول) يبقى بالإنجليزية كما في الملفات.</p>':''}<p class="mu">${c.obj}</p><p class="mu">${c.note}</p><nav>${TB.map((x,j)=>`<button class="${j==t?'on':''}" onclick="show(${i},${j})">${j+1}. ${x}</button>`).join('')}</nav>`+[terms,meths,qsec][t](c);
+ tex();scrollTo(0,0)}
+const examCard='<button class="c ch" style="grid-column:1/-1;border-left-color:var(--ac)" onclick="exam()"><span class="big">?</span><h2>Practice Exam</h2><p class="mu">Generate a random exam paper with questions from every section, then solve it on your own.</p></button>';
+const EA={'lec_2_2.pdf':'Solve by separation of variables: ','Lecture_2_5.pdf':'Solve using an appropriate substitution: ','Lec_4_3.pdf':'Find the general solution: '};
+let tmr=null,el=0,lim=0,ps=false;
+function tick(i){const b=document.getElementById('tm');if(!b){clearInterval(tmr);return}
+ if(i&&!ps)el++;const left=lim?lim-el:el,a=Math.max(left,0),f=String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0');
+ if(lim&&left<=0){b.textContent='Time is up';clearInterval(tmr)}else b.textContent=lim?f+' left':f}
+function pz(){ps=!ps;document.getElementById('pb').textContent=ps?'Resume':'Pause'}
+function tgs(){const a=[...document.querySelectorAll('.sc')],o=a.some(x=>!x.checked);a.forEach(x=>{x.checked=o})}
+function exam(){
+ clearInterval(tmr);const S=[],seen={};CH.forEach(c=>{if(!seen[c.sec]){seen[c.sec]=1;S.push(c)}});
+ app.innerHTML='<button class="b" onclick="home()">‹ All chapters</button><h1>Practice Exam</h1><p class="mu">Each click picks questions at random from the sections you tick and mixes them into one paper. Solve it on your own, then use “Show solution” or “Show sources” to check.</p><div class="c"><p><b>Sections</b> <button class="b" onclick="tgs()">All / none</button></p>'+S.map(c=>'<label style="display:block;margin:4px 0"><input type="checkbox" class="sc" value="'+c.sec+'" checked> '+c.sec+' '+c.t.replace(/ \(.*\)$/,'')+'</label>').join('')+'<p><label>Questions per section <select id="kq"><option>1</option><option selected>2</option><option>3</option></select></label></p><p><label>Timer <select id="tl"><option value="-1">None</option><option value="0" selected>Stopwatch</option><option value="30">30 min</option><option value="60">60 min</option><option value="90">90 min</option></select></label></p><button class="b" onclick="gen()">Generate random</button></div><div id="paper"></div>';
+ scrollTo(0,0)}
+function gen(){
+ const k=+document.getElementById('kq').value,tl=+document.getElementById('tl').value,on=new Set([...document.querySelectorAll('.sc:checked')].map(x=>x.value)),pools={},sh=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+ clearInterval(tmr);
+ if(!on.size){document.getElementById('paper').innerHTML='<p class="mu">Tick at least one section first.</p>';return}
+ const sp=q=>q[2].match(/\\\(.*?\\\)/g)||[],bare=q=>!q[2].replace(/\\\(.*?\\\)/g,'').trim(),ic=s=>/y\([-0-9\\]/.test(s),un=s=>s.slice(2,-2),D=s=>'<div class="eq">\\['+un(s)+'\\]</div>',bv=q=>(q[3]||'').indexOf('Boundary')==0;
+ CH.forEach(c=>{if(!on.has(c.sec))return;const p=pools[c.sec]=pools[c.sec]||{};c.qs.forEach(q=>{if(q[5]!='i'&&!/^Same/.test(q[2])&&q[0]!='Example 3 (superposition)'&&!p[q[0]])p[q[0]]={q,c}})});
+ const MT={'2.2':'Separable','2.3':'Linear','2.4':'Exact','2.5':'Bernoulli'};
+ let id=Object.keys(MT).filter(s=>pools[s]).map(s=>{const a=Object.values(pools[s]).filter(x=>sp(x.q).length==1&&!ic(sp(x.q)[0])&&!/^Convert/.test(x.q[2]));return a.length?sh(a)[0]:null}).filter(Boolean);
+ if(id.length<2)id=[];
+ id.forEach(x=>{x.u=1});
+ let list=[];Object.values(pools).forEach(p=>{list=list.concat(sh(Object.values(p).filter(x=>!x.u)).slice(0,k))});sh(list);
+ const PT={'2.3':['Rewrite the equation in standard linear form.','Find the integrating factor.','Find the general solution.'],'2.5':['Rewrite the equation in standard form.','Identify \\(n\\) and state the appropriate substitution.','Transform the equation into a linear differential equation.','Find the general solution of the original differential equation.']};
+ const fmt=({q,c})=>{const s=sp(q),e=s[0],t=q[2];let intro,body='',pr='';
+  if(s.length==1&&(bare(q)||/^(Solv(e|ing)|Find the general solution of|Determine whether)/.test(t))&&!/^Convert/.test(t)&&['2.2','2.3','2.4','2.5','4.3'].includes(c.sec)){
+   if(ic(e))intro=bv(q)?'Solve the following boundary-value problem:':'Solve the following initial-value problem:';
+   else if(c.sec=='2.2')intro='Solve the following differential equation by separation of variables.';
+   else if(c.sec=='2.3')intro='Consider the differential equation';
+   else if(c.sec=='2.4')intro='Determine whether the following differential equation is exact. If it is exact, find its general solution.';
+   else if(c.sec=='2.5')intro='Solve the following Bernoulli differential equation:';
+   else intro=bv(q)?'Solve the following boundary-value problem:':'Find the general solution of the following differential equation.';
+   body=D(e);if(PT[c.sec]&&!ic(e))pr='<ol type="a">'+PT[c.sec].map(x=>'<li>'+x+'</li>').join('')+'</ol>'}
+  else if(bare(q)){intro=bv(q)?'Solve the following boundary-value problem:':'Solve the following differential equation:';body=D(e)}
+  else intro=c.sec=='4.2'?t.replace(', find the general solution.','. Find the general solution of the differential equation.'):t;
+  return '<span>'+intro+'</span>'+body+pr};
+ const sol=h=>'<button class="b sb" onclick="this.parentNode.querySelector(\'.sol\').classList.toggle(\'on\')">Show solution</button><div class="sol">'+h+'</div>';
+ const T='\\(\\displaystyle ',idl=sh(id.slice());let n=id.length?1:0;
+ const q1=id.length?'<div class="qq"><b>Question 1:</b> For each differential equation, identify the most appropriate method of solution. Do not solve.<ol type="a">'+idl.map(x=>'<li>'+T+un(sp(x.q)[0])+'\\)</li>').join('')+'</ol><div class="fa">Final Answers: '+idl.map((x,i)=>'abcd'[i]+')').join(' &nbsp; ')+'</div><div class="src">'+idl.map((x,i)=>'abcd'[i]+') Section '+x.c.sec+', '+x.q[0]+', p. '+x.q[1]).join('; ')+'</div>'+sol(idl.map((x,i)=>'abcd'[i]+') '+MT[x.c.sec]).join(' &nbsp; '))+'</div>':'';
+ const tb=tl<0?'':'<div class="tb"><span id="tm"></span> <button class="b" id="pb" onclick="pz()">Pause</button></div>';
+ document.getElementById('paper').innerHTML=tb+'<p><button class="b" onclick="dl()">Download PDF</button> <span class="dm mu"></span></p><div class="paper" id="pp"><h2>Differential Equations: Practice Exam</h2><div class="ln"><span>Name</span><span>Student ID</span></div><p>Show all steps clearly. Write the final answer clearly in the designated box for each question.</p>'+q1+list.map(x=>'<div class="qq"><b>Question '+(++n)+':</b> '+fmt(x)+'<div class="fa">Final Answer:</div><div class="src">Section '+x.c.sec+' ('+x.c.f+'), '+x.q[0]+', p. '+x.q[1]+'. '+L[x.q[5]][0]+'.</div>'+sol(x.q[6])+'</div>').join('')+'</div><p><button class="b" onclick="document.getElementById(\'pp\').classList.toggle(\'sa\')">Show all solutions</button> <button class="b" onclick="document.getElementById(\'pp\').classList.toggle(\'sh\')">Show sources</button> <button class="b" onclick="dl()">Download PDF</button> <button class="b" onclick="gen()">Generate random</button> <span class="dm mu"></span></p>';
+ el=0;ps=false;lim=tl>0?tl*60:0;if(tl>=0){tick(0);tmr=setInterval(()=>tick(1),1000)}
+ tex()}
+Object.assign(AZ,{
+'First-order equation (order)':r`انظر إلى المشتقة في المعادلة. إذا كانت فقط \(\frac{dy}{dx}\) (مشتقة واحدة، وليست مشتقة لمشتقة) فالمعادلة من الرتبة الأولى (first-order). كل المعادلات في هذه الملفات من هذا النوع.`,
+'Separable equation':r`تخيّل أنك تفرز الغسيل: هل تستطيع وضع كل ما فيه x في كومة وكل ما فيه y في كومة أخرى؟ إذا كان الطرف الأيمن (شيئاً فيه x فقط) مضروباً في (شيء فيه y فقط) فالمعادلة قابلة للفصل (separable). أما إذا كان x و y مربوطين بعلامة جمع مثل \(y+\sin x\) فلا يمكن فصلهما، والمعادلة غير قابلة للفصل.`,
+'Initial-value problem (IVP)':r`المعادلة وحدها تعطي إجابات كثيرة (عائلة كاملة من المنحنيات). الشرط الابتدائي مثل \(y(0)=3\) هو نقطة البداية التي تحدد لك منحنى واحداً فقط. إذن: احلّ أولاً، ثم استخدم نقطة البداية لإيجاد c.`,
+'General solution and family of solutions':r`بعد التكامل يبقى في الصيغة حرف زائد هو c. تخيّل c كمقبض: كل قيمة له تعطي منحنى مختلفاً، وكل المنحنيات تحلّ المعادلة. الصيغة التي فيها c هي الحل العام (general solution)، وكل منحنياتها معاً هي العائلة.`,
+'Explicit and implicit solutions':r`الحل الصريح (explicit): y وحدها في طرف، \(y=\ldots\)، فتقرأ y مباشرة. الحل الضمني (implicit): x و y ما زالتا مختلطتين في معادلة واحدة وتتركها هكذا. في المثال 5 يترك الملف الجواب بهذه الصورة المختلطة.`,
+'Linear, homogeneous and other classifications':r`هذه المصطلحات لا تُشرح في هذا الملف، فتجاوزها الآن. المعادلات الخطية موضوع الفصل 2 في هذا الدليل.`,
+'Linear equation (in y)':r`المعادلة الخطية (linear) لها نمط بسيط: (شيء فيه x) مضروب في \(\frac{dy}{dx}\)، زائد (شيء فيه x) مضروب في y، يساوي (شيئاً فيه x). إذا استطعت ترتيب معادلتك على هذا النمط فهي خطية.`,
+'Standard form':r`الصيغة القياسية (standard form) هي الطريقة النظيفة لكتابة المعادلة الخطية: لا شيء أمام \(\frac{dy}{dx}\)، ثم \(+P(x)\,y\)، ثم \(=f(x)\). إذا كان أمام \(\frac{dy}{dx}\) شيء، اقسم المعادلة كلها عليه. بعدها P(x) هو ما يضرب y، و f(x) هو الطرف الأيمن.`,
+'Linear and separable together':r`هذان سؤالان مختلفان: «هل هي خطية؟» و«هل هي قابلة للفصل؟». يعرض الملف معادلات تجمع الصفتين (\(\frac{dy}{dx}+2xy=0\) و \(\frac{dy}{dx}=y+5\)) ومعادلة خطية لكنها غير قابلة للفصل (\(\frac{dy}{dx}+y=x\)).`,
+'Integrating factor':r`عامل التكامل (integrating factor) مساعد تضرب فيه المعادلة كلها. يُختار بحيث يتحول الطرف الأيسر إلى مشتقة واحدة \(\frac{d}{dx}[\text{factor}\cdot y]\)، ثم تكتفي بالتكامل. لبنائه: خذ P(x)، كامله (بدون +c)، وضع الناتج أسّاً لـ e فتحصل على \(e^{\int P(x)dx}\).`,
+'General solution and initial-value problem':r`الحل العام: الجواب الذي فيه c، أي منحنيات كثيرة. مسألة القيمة الابتدائية (IVP): المعادلة نفسها مع نقطة بداية تحدد c. في المثال 5 الحل العام \(y=x-1+ce^{-x}\)، والشرط \(y(0)=4\) يعطي \(c=5\).`,
+'Homogeneous and non-homogeneous':r`لا يستخدم الملف هاتين الكلمتين، فلا يوجد ما تتعلمه عنهما من هذا الملف.`,
+'Separation of variables':r`الفكرة: كل ما فيه x يذهب مع dx، وكل ما فيه y يذهب مع dy. الخطوات: (1) انقل كل ما فيه y (و dy) إلى طرف وكل ما فيه x (و dx) إلى الطرف الآخر، (2) كامل كل طرف وحده، (3) أضف c واحداً، (4) إن أمكن اجعل y وحدها.`,
+'Solving an initial-value problem by separation':r`احلّ المعادلة بالطريقة المعتادة واحتفظ بـ c. ثم عوّض بقيم البداية (x و y من الشرط الابتدائي) في الجواب واحلّ المعادلة الصغيرة لإيجاد c. أعد c إلى الحل. في المثال 4(b) أعطى \(y(0)=3\) القيمة \(c=9\).`,
+'Integrating-factor method (linear first-order equations)':r`الفكرة: اضرب في «مساعد» خاص فيصير الطرف الأيسر مشتقة واحدة يستطيع التكامل إلغاءها. الخطوات: (1) اجعل dy/dx وحدها (اقسم على ما أمامها)، (2) اقرأ P(x)، (3) ابنِ المساعد \(e^{\int P(x)dx}\)، (4) اضرب المعادلة كلها فيه فيصير الطرف الأيسر \(\frac{d}{dx}[\text{helper}\cdot y]\)، (5) كامل الطرفين وأضف c، (6) اجعل y وحدها.`,
+'Separation of variables (when the linear equation is also separable)':r`بعض المعادلات الخطية يمكن حلها أيضاً بحيلة الفرز من الفصل 1. يذكر الملف ذلك في المثال 1 ثم يستخدم عامل التكامل على أي حال. إذا كانت المعادلة غير قابلة للفصل (مثل \(\frac{dy}{dx}+y=x\)) فاستخدم عامل التكامل.`,
+'Solving an initial-value problem with the integrating factor':r`احصل أولاً على الحل العام وفيه c. ثم عوّض بقيم البداية واحلّ لإيجاد c. في المثال 5 الشرط \(y(0)=4\) يعطي \(c=5\).`,
+'Differential form M dx + N dy = 0':r`بعد أن يصير الطرف الأيمن صفراً، M هي ما يضرب dx و N هي ما يضرب dy.`,
+'Differential of a function of two variables':r`فكّر في f(x,y) = c على أنه الجواب الذي تريده. اشتقاقه يعطي معادلة على صورة M dx + N dy = 0. المعادلة التامة هي التي تستطيع فيها أن تسير في الاتجاه المعاكس.`,
+'Exact equation':r`«تامة» (exact) تعني أن هناك دالة مخفية f(x,y). إذا وُجدت تستطيع إيجادها، والجواب هو f(x,y) = c.`,
+'Test for exactness (Theorem 2.4.1)':r`اشتق جزء dx بالنسبة إلى y، واشتق جزء dy بالنسبة إلى x. إذا تساويا فالمعادلة تامة.`,
+'Implicit solution f(x,y) = c':r`لا يلزمك استخراج y. كل قيمة لـ c تعطي منحنى مختلفاً f(x,y) = c.`,
+'Other classifications (linear, homogeneous)':r`تجاوز هذه الكلمات هنا؛ التمام (exactness) اختبار قائم بذاته.`,
+'Test for exactness':r`اشتق M بالنسبة إلى y و N بالنسبة إلى x. إذا خرجت النتيجتان متساويتين فالمعادلة تامة.`,
+'Solving an exact equation (partial integration)':r`أعد بناء الدالة المخفية: كامل M بالنسبة إلى x، أضف دالة مجهولة g(y)، ثم استخدم N لإيجاد g(y). الجواب هو f(x,y) = c.`,
+'Shortcut: integrate M and N, combine without repeats':r`كامل M بالنسبة إلى x، وكامل N بالنسبة إلى y، ثم ادمج النتيجتين مع كتابة كل حد مرة واحدة فقط.`,
+'Substitution':r`استبدل الجزء المزعج بحرف جديد u فتتحول المعادلة إلى نوع تعرف حله، ثم أعد التعويض في النهاية.`,
+'Bernoulli equation':r`معادلة برنولي (Bernoulli) معادلة خطية مع قوة إضافية لـ y في الطرف الأيمن. هذه القوة n تحدد لك التعويض.`,
+'The Bernoulli substitution u = y^(1−n)':r`اطرح n من 1 واستخدم الناتج أساً جديداً لـ y.`,
+'Linear equation after the substitution':r`بعد الاستبدال تحصل على معادلة مثل معادلات القسم 2.3، لكن بحرف u بدل y.`,
+'Other classifications':r`في هذا الملف تُصنَّف معادلات برنولي فقط.`,
+'Substitution (general idea)':r`استبدل الجزء المزعج بـ u، احلّ المعادلة الأسهل لإيجاد u، ثم أعد u لتحصل على y.`,
+'Solving a Bernoulli equation':r`جد n، ثم ضع u = y^(1−n) فتتحول المعادلة إلى خطية. احلّها لإيجاد u، ثم ارجع إلى y.`,
+'Second-order equation (order)':r`عُدّ الشرطات على y. شرطتان (y″) ولا شيء أعلى منهما تعني معادلة من الرتبة الثانية.`,
+'Homogeneous linear with constant coefficients':r`أعداد عادية أمام y″ و y′ و y، وصفر في الطرف الأيمن. هذا هو النوع الوحيد الذي يحله هذا الفصل.`,
+'Auxiliary equation':r`استبدل y″ بـ m² و y′ بـ m و y بـ 1، فتحصل على معادلة تربيعية عادية (المعادلة المساعدة).`,
+'The three cases for the roots':r`إما جذران حقيقيان مختلفان، أو جذر مكرر، أو زوج فيه i. أيٌّ منها تحصل عليه يحدد الصيغة.`,
+'Second-order initial-value problem':r`ثابتان يحتاجان إلى معلومتين. مسألة القيمة الابتدائية تعطيهما: القيمة عند البداية والميل عند البداية.`,
+'Boundary-value problem (Problems 37–40)':r`يعرض الملف هذه المسائل كتمارين بلا مثال محلول، لذلك تُعرض هنا المسائل فقط.`,
+'Auxiliary-equation method':r`خمّن y = e^(mx) وعوّض، فتتحول المعادلة إلى معادلة تربيعية في m. الجذور تحدد الجواب.`,
+'Solving a second-order initial-value problem':r`احلّ أولاً حلاً عاماً. ثم استخدم القيمة والميل عند البداية لتحديد C₁ و C₂.`,
+'Homogeneous linear second-order equation':r`معادلة فيها y″ و y′ و y، لكل منها معامل (قد يعتمد على x)، وصفر في الطرف الأيمن.`,
+'Standard form y″ + P(x)y′ + Q(x)y = 0':r`اقسم حتى تبقى y″ وحدها بمعامل 1. بعدها اقرأ P(x)، وهو العدد أو الدالة أمام y′.`,
+'A given solution y₁':r`يُعطى لك حل واحد صحيح. الطريقة تبني منه حلاً ثانياً.`,
+'Linearly independent solutions y₁, y₂':r`y₁ و y₂ حلان مختلفان فعلاً، وليس أحدهما نسخة من الآخر (مستقلان خطياً).`,
+'General solution y = C₁y₁ + C₂y₂':r`اجمع حليك، لكل منهما ثابته الخاص.`,
+'Reduction of order (finding y₂ from a given y₁)':r`يُعطى لك حل واحد. تعطيك الصيغة حلاً ثانياً مختلفاً. اجمعهما بثابتين.`,
+'Linear initial-value problem (nth order)':r`المعادلة مع معلومات عن نقطة بداية واحدة.`,
+'Existence and uniqueness (Theorem 4.1.1)':r`فحص أمان يخبرك متى يكون لمسألة القيمة الابتدائية جواب واحد فقط.`,
+'Boundary-value problem (BVP)':r`معلومات عن مكانين مختلفين بدل مكان واحد. قد يكون للمسألة حلول كثيرة أو حل واحد أو لا حل.`,
+'Homogeneous and nonhomogeneous':r`صفر في الطرف الأيمن يعني متجانسة (homogeneous). أي شيء آخر في الطرف الأيمن يعني غير متجانسة (nonhomogeneous).`,
+'Differential operator D':r`D اختصار لعبارة «خذ المشتقة». هو فقط يختصر الكتابة.`,
+'Superposition principle (Theorem 4.1.2)':r`اجمع الحلول واضربها في أعداد، فتبقى النتيجة حلاً (مبدأ التراكب).`,
+'Linear dependence and independence (Definition 4.1.1)':r`معتمدة (dependent): يمكن بناء إحدى الدوال من الباقي. مستقلة (independent): كل دالة تضيف شيئاً جديداً.`,
+'Wronskian and fundamental set':r`اختبار واحد: إذا لم تكن W صفراً فالحلول مختلفة فعلاً (الرونسكيان Wronskian).`,
+'General solution and complementary function':r`جواب المعادلة غير المتجانسة = (الحل العام للجزء المتجانس) + (حل خاص واحد).`,
+'Wronskian test and general solution (homogeneous)':r`ضع الحلول في محدد. إذا لم يكن صفراً فهي مختلفة فعلاً، فاجمعها بثوابت.`,
+'Nonhomogeneous equation: complementary function plus particular solution':r`احلّ النسخة التي طرفها الأيمن 0، ثم أضف حلاً صحيحاً واحداً للطرف الأيمن الحقيقي.`,
+'Existence check and boundary conditions':r`افحص الضمان أولاً. وللشروط الحدّية عوّضها في الحل العام وانظر كم جواباً يبقى.`
+});
+Object.assign(AZ,{
+'Example 2: Solution Curve':r`ضع y مع dy و x مع dx ثم كامل الطرفين. الجواب دوائر مركزها نقطة الأصل، ونقطة البداية (4, −3) تختار الدائرة ذات نصف القطر 5 لأن 16 + 9 = 25.`,
+'Example 3: An Initial-Value Problem':r`اقسم حتى يصير ما فيه y مع dy وما فيه x مع dx. رتّب كل طرف أولاً (جزّئ الكسر في اليسار، واستخدم \(\sin 2x=2\sin x\cos x\) في اليمين) ثم كامل. نقطة البداية تعطي c = 4.`,
+'Example 4(a): a family of solutions':r`y² تذهب مع dy وكثيرة الحدود في x تذهب مع dx. كامل الطرفين ثم خذ الجذر التكعيبي لتحصل على y. الثابت c المتبقي يصنع عائلة من الحلول.`,
+'Example 4(b): Solving an initial value problem':r`أعد استخدام جواب 4(a). ضع x = 0 و y = 3 فيه: \(3=\sqrt[3]{3c}\)، إذن c = 9.`,
+'Example 5: an implicit solution':r`الحيلة نفسها: افصل وكامل. يتوقف الملف عند الصورة الضمنية. نقطة البداية (x = 0, y = π) تعطي \(c=5e^{\pi}-1\).`,
+'Example 1: Solving a Linear Equation':r`المعادلة نظيفة أصلاً: لا شيء أمام \(\frac{dy}{dx}\). P = −3 فالمساعد هو \(e^{-3x}\). اضرب فيتحول الطرف الأيسر إلى \(\frac{d}{dx}[e^{-3x}y]\). الطرف الأيمن 0 فالتكامل يعطي \(e^{-3x}y=c\).`,
+'Example 2: Solving a Linear Equation':r`الطرف الأيسر نفسه في المثال 1 فالمساعد نفسه \(e^{-3x}\). الطرف الأيمن الآن 6 فيصبح \(6e^{-3x}\) ويجب تكامله أيضاً. هذا التكامل الإضافي هو الذي يعطي −2.`,
+'Example 3: General Solution':r`أمام \(\frac{dy}{dx}\) يوجد x، فاقسم على x أولاً. عندها \(P=-4/x\) والمساعد \(x^{-4}\). اضرب، كامل (بالتجزئة)، ثم اجعل y وحدها.`,
+'Example 4: General Solution':r`اقسم على \(x^2-9\) لتنظّف المعادلة. المساعد \(\sqrt{x^2-9}\). الطرف الأيسر يصير مشتقة واحدة والأيمن 0، فيكون \(\sqrt{x^2-9}\,y=c\).`,
+'Example 5: An Initial-Value Problem':r`المعادلة نظيفة وفيها P = 1 فالمساعد \(e^{x}\). احصل على الحل العام وفيه c، ثم \(y(0)=4\) يعطي c = 5.`,
+'Example 6: Solve the Linear ODE':r`المعادلة نظيفة وفيها \(P=\frac1x\) فالمساعد x. اضرب، كامل، واقسم على x: \(y=\frac1x\int x\cdot4x^2dx\).`,
+'Example 7: Solve the Linear ODE':r`ليست نظيفة بعد: اقسم على \(\sin x\) ورتّب حتى تبقى \(\frac{dy}{dx}\) وحدها. عندها \(P=\cot x\) والمساعد \(\sin x\)، وداخل التكامل \(\sin x\cdot\frac{1}{\sin x}\) يساوي 1 فقط.`,
+'Introduction example':r`لاحظ أن الطرف الأيسر هو بالضبط تفاضل xy. هذه هي فكرة هذا القسم كله.`,
+'Example 1(a)':r`M لا فيها y و N لا فيها x، فالمشتقتان 0 وتتساويان.`,
+'Example 1(b)':r`المشتقتان 1 و −1. مختلفتان، فيفشل الاختبار.`,
+'Example 1(c)':r`المشتقتان تخرجان \(\cos y-\sin x\) كلتاهما، فتنجح المعادلة في الاختبار.`,
+'Example 1(d)':r`المشتقتان 2y كلتاهما، فتنجح المعادلة في الاختبار.`,
+'Example 2: Solving an Exact DE':r`كامل \(2xy\) بالنسبة إلى x فتحصل على \(x^2y\) زائد دالة مجهولة \(g(y)\)؛ ومقارنتها بـ \(x^2-1\) تبين أن \(g(y)=-y\).`,
+'Example 3: Solving an Exact DE':r`تكامل M يترك كل شيء ما عدا جزءاً فيه y فقط. المقارنة مع N تبين أن الجزء الناقص هو y.`,
+'Example 4: Solving an Exact DE':r`انقل كل شيء إلى طرف واحد لتجد M و N، ثم اتبع الروتين نفسه: كامل M بالنسبة إلى x وحدد جزء y باستخدام N.`,
+'Example 5: Solving an IVP':r`احلّ المعادلة التامة لتحصل على f = C، ثم ضع x = 0 و y = 3 لتحدد C = 18.`,
+'Exercise 1 (Exercises 2.4)':r`تحقق أن 4 = 4، كامل \(5x+4y\) بالنسبة إلى x، ثم حدد جزء y باستخدام \(4x-8y^3\) لتحصل على \(-2y^4\).`,
+'Example 1(a): convert to linear':r`هنا n = 2 فيكون \(v=y^{-1}\). التعويض يحوّل y² إلى v عادية ويترك معادلة خطية.`,
+'Example 1(b): convert to linear':r`بما أن n = −2 فإن 1 − n = 3 فيكون \(v=y^3\). اضرب في 3 لتتخلص من الكسر 1/3.`,
+'Example 1(c): convert to linear':r`n = 4 تعطي \(v=y^{-3}\). اقسم على y⁴ أولاً ليصير الطرف الأيمن x فقط، ثم عوّض.`,
+'Example 1(d): convert to linear':r`انقل الجذر إلى اليمين على صورة \(y^{1/2}\) فتكون n = 1/2 و \(v=y^{1/2}\).`,
+'Example 2: Solving a Bernoulli DE':r`اقسم على x، وضع u = 1/y، احلّ المعادلة الخطية لإيجاد u، ثم اقلب راجعاً: y = 1/u.`,
+'Example 3: Solving a Bernoulli DE':r`اضرب الطرف الأيمن لترى y⁴ (أي n = 4) فيكون \(u=y^{-3}\). المعادلة الخطية تُحل بالمساعد \(e^{-3x}\).`,
+'Example 4: Solving an IVP':r`رتّب لترى \(y^{-2}\) في الطرف الأيمن (n = −2) فيكون \(u=y^3\). احلّ لإيجاد u، أعد y³، ثم استخدم \(y(1)=2\) لتحصل على C = 8.`,
+'Example 1(a): Second-Order DEs':r`جذران حقيقيان مختلفان، فلكل جذر دالة أسّية.`,
+'Example 1(b): Second-Order DEs':r`جذر واحد مكرر، فالحل الثاني يأخذ x إضافية.`,
+'Example 1(c): Second-Order DEs':r`الجذران زوج فيه i، فيستخدم الجواب cos و sin مع \(e^{\alpha x}\).`,
+'Example 2(a): An Initial-Value Problem':r`جذران تخيليان بلا جزء حقيقي، فيبقى cos و sin فقط. ثم الشرطان يحددان C₁ و C₂.`,
+'Example 2(b): An Initial-Value Problem':r`جذران حقيقيان يعطيان دالتين أسّيتين. والشرطان يصيران معادلتين بسيطتين في C₁ و C₂.`,
+'Example 3: An IVP (second order)':r`الجذور المركبة تعطي \(e^{-x/2}\) في cos و sin. استخدم y(0) لإيجاد c₁، ثم اشتق لإيجاد c₂.`,
+'Example 1 (reduction of order)':r`اقسم على x² أولاً. عندها \(P=-3/x\) وتعطي الصيغة الحل الإضافي \(x^2\ln x\).`,
+'Example 2 (reduction of order)':r`P = 0 فيكون الأسّ في الصيغة 1 فقط. والتكامل يعطي \(e^{-x}\) مع ثابت.`,
+'Example 3 (reduction of order)':r`مع \(y_1=1\) تصير الصيغة مجرد تكامل \(e^{-x}\). الحل الثاني \(e^{-x}\) مع تجاهل الإشارة.`,
+'Example 4 (reduction of order)':r`تكامل \(1/\cos^2\) هو ظل (tan). الضرب في cos يعطي جيباً (sin). الثابت 1/4 مجرد ثابت فيُحذف.`,
+'Example 5 (reduction of order)':r`\(e^{-2x}\) تختصر مع مربع \(xe^{-x}\) فيبقى \(1/x^2\). التكامل يعطي \(-1/x\)، والضرب في \(xe^{-x}\) يترك \(e^{-x}\).`,
+'Example 1 (unique solution of an IVP)':r`كل شروط النظرية متحققة، فالجواب مضمون أن يكون الوحيد.`,
+'Example 1 (second IVP, not unique)':r`لأن المعامل الأول يساوي 0 حيث توجد الشروط، لا تعطي النظرية ضماناً، وتظهر حلول كثيرة.`,
+'Example 2(a): A BVP can have many, one, or no solutions':r`الشرط الثاني يتحقق تلقائياً، فيبقى c₂ حراً. وهذا يعطي عدداً لا نهائياً من الحلول.`,
+'Example 2(b)':r`هذه المرة الشرط الثاني يفرض c₂ = 0.`,
+'Example 2(c)':r`الشرط يطلب 1 لكن الصيغة تعطي 0، فلا شيء ينجح.`,
+'Example 1 (differential operators), part (a)':r`حوّل y″ إلى D²y و y′ إلى Dy، ثم أخرج y عاملاً مشتركاً.`,
+'Example 1 (differential operators), part (b)':r`الفكرة نفسها؛ والعبارة 3x في الطرف الأيمن تجعلها غير متجانسة.`,
+'Example 2 (superposition)':r`يمكن جمع حلين لمعادلة متجانسة مع ضربهما في ثوابت.`,
+'Example 3 (superposition)':r`أي مضاعف ثابت أو مجموع للحلين هو حل أيضاً، بما في ذلك 0.`,
+'Example 4: Linearly Dependent Set of Functions':r`متطابقتان تلغيان كل شيء بهذه الثوابت، فالمجموعة معتمدة خطياً.`,
+'Example 5: Linearly Dependent Set of Functions':r`f₂ مبنية من f₁ و f₃، فالمجموعة معتمدة خطياً.`,
+'Handwritten illustration under Theorem 4.1.3':r`يبيّن كيف يُكتب المحدد 2 في 2.`,
+'Example 6':r`المحدد −6 وليس صفراً، فالدالتان مستقلتان ويمكن جمعهما.`,
+'Example 7':r`ثلاث دوال لمعادلة من الرتبة الثالثة، والمحدد 2 (ليس صفراً)، فهي مجموعة أساسية.`,
+'Example 8':r`يتبسط المحدد إلى 4 باستخدام \(\cos^2+\sin^2=1\).`,
+'Example 9: General Solution of a Homogeneous DE':r`المحدد \(2e^{6x}\) ولا يساوي صفراً أبداً، فالحلول الثلاثة مستقلة.`,
+'Example 10: General Solution of a Nonhomogeneous DE':r`خذ جواب النسخة ذات الطرف الأيمن الصفري (المثال 9) وأضف الحل الخاص المعطى.`
+});
+const lj=u=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=()=>no(new Error('load'));document.head.appendChild(s)});
+async function libs(){if(!window.html2canvas)await lj('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');if(!(window.jspdf&&window.jspdf.jsPDF))await lj('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')}
+async function dl(){
+ const msg=t=>document.querySelectorAll('.dm').forEach(e=>{e.textContent=t}),pp=document.getElementById('pp');
+ if(!pp)return;
+ const d=window.claude&&window.claude.use?await window.claude.use('downloads'):null;
+ if(!d){msg('Saving files is not available in this view. Open the page from the claude.ai link.');return}
+ msg('Preparing the PDF…');
+ const box=document.createElement('div');
+ try{
+  await libs();
+  box.style.cssText='position:fixed;left:-10000px;top:0;width:700px;background:#fff';document.body.appendChild(box);
+  const doc=new window.jspdf.jsPDF({unit:'pt',format:'a4'}),W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight(),M=36,CW=W-2*M;let y=M;
+  const parts=[[...pp.children].filter(e=>!e.classList.contains('qq'))].concat([...pp.querySelectorAll('.qq')].map(e=>[e]));
+  for(const els of parts){
+   const w=document.createElement('div');w.className='paper';w.style.cssText='border:0;padding:0 20px;margin:0;width:700px;box-sizing:border-box';
+   els.forEach(e=>{const c=e.cloneNode(true);c.querySelectorAll('.src,.sol,.sb,mjx-assistive-mml').forEach(x=>x.remove());w.appendChild(c)});
+   box.appendChild(w);
+   const cv=await window.html2canvas(w,{scale:2,backgroundColor:'#ffffff',logging:false}),h=cv.height*CW/cv.width;
+   if(y+h>H-M&&y>M){doc.addPage();y=M}
+   doc.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',M,y,CW,h);y+=h+8;box.removeChild(w)}
+  await d.save({filename:'practice-exam-'+new Date().toISOString().slice(0,10)+'.pdf',data:doc.output('blob')});
+  msg('Saved. Check your downloads.');
+ }catch(e){
+  const c=e&&e.code;
+  msg(c=='declined'?'Download cancelled.':(c=='extension_not_enabled'||c=='rejected_extension')?'PDF saving is not available in this view.':c=='rate_limited'?'Please wait a moment and try again.':'Could not create the PDF. Please try again.');
+ }finally{if(box.parentNode)box.parentNode.removeChild(box)}
+}
+home();
+</script>
+</body>
+</html>
